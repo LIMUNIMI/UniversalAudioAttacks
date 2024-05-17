@@ -1,0 +1,10 @@
+[
+  {"name": "gunshot", "old_name": "gunshot_triangulation"},
+  {"name": "nsynth_pitch_5h", "old_name": "nsynth_pitch"},
+  {"name": "GTZAN_music", "old_name": "tfds_gtzan"},
+  {"name": "GTZAN_music_speech", "old_name": "tfds_gtzan_music_speech"},
+  {"name": "speech_commands_5h", "old_name": "speech_commands"},
+  {"name": "vox_lingua", "old_name": "vox_lingua_top10"},
+  {"name": "crema-D", "old_name": "tfds_crema_d"}
+
+]
