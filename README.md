@@ -1,5 +1,6 @@
 # Adversarial robustness evaluation of feature learning models and universal audio representations
-Source code for the paper "Adversarial robustness evaluation of feature learning models and universal audio representations".
+Source code for the paper "Adversarial Robustness Evaluation of
+Universal Audio Representation Learning Models".
 
 ## Setup
 Use conda and the environment files provided as specified:
