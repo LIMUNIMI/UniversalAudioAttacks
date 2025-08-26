@@ -1,26 +1,26 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# # Step 3.  
+# # Step 3.
 # #### Model import, embedding computation and evaluation
-# Models are imported via pip + wget (for weights if present). 
-# 
+# Models are imported via pip + wget (for weights if present).
+#
 # **hearPipeline (hearPipeline2) env**
-# 
-# **Do this via shell. Clone env before for safety.**  
-# *conda run pip install git+{git_url}.git@{git_rev_2021_12_01} {pip3_additional_packages}  
+#
+# **Do this via shell. Clone env before for safety.**
+# *conda run pip install git+{git_url}.git@{git_rev_2021_12_01} {pip3_additional_packages}
 # wget {zenodo_weights_url}*
-# 
-# Embeddings are computed with:  
-# 
-# *import MODEL*  
+#
+# Embeddings are computed with:
+#
+# *import MODEL*
 # *!python -m heareval.embeddings.runner MODEL --model WEIGHTS --tasks-dir ./tasks/ --embeddings-dir embeddings*
-# 
+#
 # Embeddings are evaluated (+ save MLP) with:
-# 
-# *!python3 -m heareval.predictions.runner embeddings/MODEL/* --save-trained True   
-# 
-# /embeddings/MODEL/TASK/test.predicted-scores.json  contains results  
+#
+# *!python3 -m heareval.predictions.runner embeddings/MODEL/* --save-trained True
+#
+# /embeddings/MODEL/TASK/test.predicted-scores.json  contains results
 # /savedModels/MODEL/TASK contains models (1 if single test split, k if k folds)
 
 # #### Reference Example
@@ -33,6 +33,7 @@
 ##   !conda run pip install git+https://github.com/hearbenchmark/hear-baseline.git@4478f9fd0d6cbc47fd06c66203b0340d1b5da1ad transformers==4.16.1 --no-deps
 ##   !conda run pip install git+https://github.com/tony10101105/HEAR-2021-NeurIPS-Challenge---NTU@7b7ce730d23232cec85698728fd1048800764d06
 
+import os
 import sys
 from datetime import datetime
 from utils import Tee, run_command
@@ -48,15 +49,19 @@ os.makedirs(log_dir, exist_ok=True)
 os.makedirs(image_dir, exist_ok=True)
 
 # Redirect stdout and stderr to a log file and terminal
-log_file = open(f"{log_dir}/{script_name}_{timestamp}.log", 'w')
+log_file = open(f"{log_dir}/{script_name}_{timestamp}.log", "w")
 tee = Tee(sys.stdout, log_file)
 sys.stdout = tee
 sys.stderr = tee
 
+
 # Ensure log file is closed on exit
 def close_log():
     log_file.close()
+
+
 import atexit
+
 atexit.register(close_log)
 
 
@@ -99,7 +104,7 @@ atexit.register(close_log)
 # In[1]:
 
 
-get_ipython().system('python3 -m heareval.embeddings.runner --help')
+get_ipython().system("python3 -m heareval.embeddings.runner --help")
 
 
 # #### Wav2Vec
@@ -111,7 +116,8 @@ MODEL_NAME = "hearbaseline.wav2vec2"
 
 import os
 import json
-with open('datasets.json', 'r') as file:
+
+with open("datasets.json", "r") as file:
     datasets = json.load(file)
 
 
@@ -128,7 +134,10 @@ with open('datasets.json', 'r') as file:
 # Compute embeddings
 # Note: to re run make sure the embedding directory is deleted.
 import hearbaseline.wav2vec2
-run_command('python -m heareval.embeddings.runner hearbaseline.wav2vec2 --tasks-dir ./tasks/ --embeddings-dir embeddings')
+
+run_command(
+    "python -m heareval.embeddings.runner hearbaseline.wav2vec2 --tasks-dir ./tasks/ --embeddings-dir embeddings"
+)
 
 
 # In[3]:
@@ -154,19 +163,22 @@ else:
 # Evaluate embeddings + save MLP
 # Note: to re run make sure the predictions files in the task embedding directory and the saved models are deleted.
 import os
-os.environ['CUBLAS_WORKSPACE_CONFIG'] = ':4096:8'
+
+os.environ["CUBLAS_WORKSPACE_CONFIG"] = ":4096:8"
 
 # Train and evaluate classifier using hearbaseline.wav2vec2 embeddings + save MLP
-run_command('python3 -m heareval.predictions.runner embeddings/hearbaseline.wav2vec2/* --save-trained True')
+run_command(
+    "python3 -m heareval.predictions.runner embeddings/hearbaseline.wav2vec2/* --save-trained True"
+)
 
 
 # In[4]:
 
 
 # Rename saved models folders and files
-with open('savedModelsName.json', 'r') as file:
+with open("savedModelsName.json", "r") as file:
     models_name = json.load(file)
-    
+
 models_count = 0
 for task_name in models_name:
     old_name = task_name["old_name"]
@@ -194,7 +206,7 @@ for task_name in models_name:
 models_count = 0
 for task in datasets:
     task_name = task["name"]
-    
+
     models_path = f"savedModels/{MODEL_NAME}/{task_name}"
     if os.path.exists(models_path):
         models_count += 1
@@ -231,20 +243,23 @@ for task in model_clean_results:
     embeddings_path = f"embeddings/{MODEL_NAME}/{task}"
     metadata_path = f"{embeddings_path}/task_metadata.json"
 
-    with open(metadata_path, 'r') as file:
+    with open(metadata_path, "r") as file:
         metadata = json.load(file)
 
-    if metadata["split_mode"] == "new_split_kfold" or metadata["split_mode"] == "presplit_kfold":
+    if (
+        metadata["split_mode"] == "new_split_kfold"
+        or metadata["split_mode"] == "presplit_kfold"
+    ):
         split = "folds"
     elif metadata["split_mode"] == "trainvaltest":
         split = "TVT"
-        
+
     print(f"- Test score for task {task}:")
     if split == "folds":
-        print(model_clean_results[task][0]['aggregated_scores']['test_score_mean'])
+        print(model_clean_results[task][0]["aggregated_scores"]["test_score_mean"])
     elif split == "TVT":
-        print(model_clean_results[task][0]['test']['test_score'])
-    
+        print(model_clean_results[task][0]["test"]["test_score"])
+
     print("")
 
 
@@ -255,9 +270,9 @@ for task in model_clean_results:
 # Esc50 0.5610 -> 0.6144   UP (!)
 # Gunshot 0.8482 -> 0.7708   DOWN (!)
 # Libricount 0.6921 -> 0.6642   DOWN (!)
-# Mridangam stroke 0.9432 -> 0.9190   DOWN (!) 
+# Mridangam stroke 0.9432 -> 0.9190   DOWN (!)
 # Mridangam tonic 0.8283 -> 0.7549   DOWN (!)
-# NsyntPitch5h 0.4020 -> 0.4360   UP 
+# NsyntPitch5h 0.4020 -> 0.4360   UP
 # Speech commands 0.8382 -> 0.8801   UP (!)
 # Voxlingua 0.4928 -> 0.5576   UP (!)
 # GTZAN_music_speech 0.9462 -> 0.9288   DOWN
@@ -273,7 +288,8 @@ MODEL_NAME = "GURA.fusion_hubert_xlarge"
 
 import os
 import json
-with open('datasets.json', 'r') as file:
+
+with open("datasets.json", "r") as file:
     datasets = json.load(file)
 
 
@@ -290,7 +306,10 @@ with open('datasets.json', 'r') as file:
 # Compute embeddings
 # Note: to re run make sure the embedding directory is deleted.
 import GURA.fusion_hubert_xlarge
-get_ipython().system('python -m heareval.embeddings.runner GURA.fusion_hubert_xlarge --tasks-dir ./tasks/ --embeddings-dir embeddings')
+
+get_ipython().system(
+    "python -m heareval.embeddings.runner GURA.fusion_hubert_xlarge --tasks-dir ./tasks/ --embeddings-dir embeddings"
+)
 
 
 # In[2]:
@@ -300,7 +319,10 @@ get_ipython().system('python -m heareval.embeddings.runner GURA.fusion_hubert_xl
 # Compute embeddings
 # Note: to re run make sure the embedding directory is deleted.
 import GURA.fusion_hubert_xlarge
-get_ipython().system('python -m heareval.embeddings.runner GURA.fusion_hubert_xlarge --tasks-dir ./tasks/ --embeddings-dir embeddings')
+
+get_ipython().system(
+    "python -m heareval.embeddings.runner GURA.fusion_hubert_xlarge --tasks-dir ./tasks/ --embeddings-dir embeddings"
+)
 
 
 # In[3]:
@@ -325,10 +347,12 @@ else:
 
 # Evaluate embeddings + save MLP
 # Note: to re run make sure the predictions files in the task embedding directory and the saved models are deleted.
-get_ipython().run_line_magic('env', 'CUBLAS_WORKSPACE_CONFIG=:4096:8')
+get_ipython().run_line_magic("env", "CUBLAS_WORKSPACE_CONFIG=:4096:8")
 
 # Train, evaluate and save MLP classifier/s on GURA.fusion_hubert_xlarge embeddings + save MLP
-get_ipython().system('python3 -m heareval.predictions.runner embeddings/GURA.fusion_hubert_xlarge/*  --save-trained True')
+get_ipython().system(
+    "python3 -m heareval.predictions.runner embeddings/GURA.fusion_hubert_xlarge/*  --save-trained True"
+)
 
 
 # In[4]:
@@ -337,19 +361,21 @@ get_ipython().system('python3 -m heareval.predictions.runner embeddings/GURA.fus
 # For crema-D (added later)
 # Evaluate embeddings + save MLP
 # Note: to re run make sure the predictions files in the task embedding directory and the saved models are deleted.
-get_ipython().run_line_magic('env', 'CUBLAS_WORKSPACE_CONFIG=:4096:8')
+get_ipython().run_line_magic("env", "CUBLAS_WORKSPACE_CONFIG=:4096:8")
 
 # Train, evaluate and save MLP classifier/s on GURA.fusion_hubert_xlarge embeddings + save MLP
-get_ipython().system('python3 -m heareval.predictions.runner embeddings/GURA.fusion_hubert_xlarge/*  --save-trained True')
+get_ipython().system(
+    "python3 -m heareval.predictions.runner embeddings/GURA.fusion_hubert_xlarge/*  --save-trained True"
+)
 
 
 # In[2]:
 
 
 # Rename saved models folders and files
-with open('savedModelsName.json', 'r') as file:
+with open("savedModelsName.json", "r") as file:
     models_name = json.load(file)
-    
+
 models_count = 0
 for task_name in models_name:
     old_name = task_name["old_name"]
@@ -377,7 +403,7 @@ for task_name in models_name:
 models_count = 0
 for task in datasets:
     task_name = task["name"]
-    
+
     models_path = f"savedModels/{MODEL_NAME}/{task_name}"
     if os.path.exists(models_path):
         models_count += 1
@@ -414,20 +440,23 @@ for task in model_clean_results:
     embeddings_path = f"embeddings/{MODEL_NAME}/{task}"
     metadata_path = f"{embeddings_path}/task_metadata.json"
 
-    with open(metadata_path, 'r') as file:
+    with open(metadata_path, "r") as file:
         metadata = json.load(file)
 
-    if metadata["split_mode"] == "new_split_kfold" or metadata["split_mode"] == "presplit_kfold":
+    if (
+        metadata["split_mode"] == "new_split_kfold"
+        or metadata["split_mode"] == "presplit_kfold"
+    ):
         split = "folds"
     elif metadata["split_mode"] == "trainvaltest":
         split = "TVT"
-        
+
     print(f"- Test score for task {task}:")
     if split == "folds":
-        print(model_clean_results[task][0]['aggregated_scores']['test_score_mean'])
+        print(model_clean_results[task][0]["aggregated_scores"]["test_score_mean"])
     elif split == "TVT":
-        print(model_clean_results[task][0]['test']['test_score'])
-    
+        print(model_clean_results[task][0]["test"]["test_score"])
+
     print("")
 
 
@@ -449,7 +478,8 @@ MODEL_NAME = "efficient_latent"
 
 import os
 import json
-with open('datasets.json', 'r') as file:
+
+with open("datasets.json", "r") as file:
     datasets = json.load(file)
 
 
@@ -467,7 +497,10 @@ with open('datasets.json', 'r') as file:
 # Compute embeddings
 # Note: to re run make sure the embedding directory is deleted.
 import efficient_latent
-get_ipython().system('python -m heareval.embeddings.runner efficient_latent --tasks-dir ./tasks/ --embeddings-dir embeddings --model ./modelWeights/hear2021-efficient_latent.pt')
+
+get_ipython().system(
+    "python -m heareval.embeddings.runner efficient_latent --tasks-dir ./tasks/ --embeddings-dir embeddings --model ./modelWeights/hear2021-efficient_latent.pt"
+)
 
 
 # In[15]:
@@ -492,19 +525,21 @@ else:
 
 # Evaluate embeddings + save MLP
 # Note: to re run make sure the predictions files in the task embedding directory and the saved models are deleted.
-get_ipython().run_line_magic('env', 'CUBLAS_WORKSPACE_CONFIG=:4096:8')
+get_ipython().run_line_magic("env", "CUBLAS_WORKSPACE_CONFIG=:4096:8")
 
 # Train, evaluate and save MLP classifier/s on efficient_latent embeddings + save MLP
-get_ipython().system('python3 -m heareval.predictions.runner embeddings/efficient_latent/*  --save-trained True')
+get_ipython().system(
+    "python3 -m heareval.predictions.runner embeddings/efficient_latent/*  --save-trained True"
+)
 
 
 # In[2]:
 
 
 # Rename saved models folders and files
-with open('savedModelsName.json', 'r') as file:
+with open("savedModelsName.json", "r") as file:
     models_name = json.load(file)
-    
+
 models_count = 0
 for task_name in models_name:
     old_name = task_name["old_name"]
@@ -532,7 +567,7 @@ for task_name in models_name:
 models_count = 0
 for task in datasets:
     task_name = task["name"]
-    
+
     models_path = f"savedModels/{MODEL_NAME}/{task_name}"
     if os.path.exists(models_path):
         models_count += 1
@@ -569,20 +604,23 @@ for task in model_clean_results:
     embeddings_path = f"embeddings/{MODEL_NAME}/{task}"
     metadata_path = f"{embeddings_path}/task_metadata.json"
 
-    with open(metadata_path, 'r') as file:
+    with open(metadata_path, "r") as file:
         metadata = json.load(file)
 
-    if metadata["split_mode"] == "new_split_kfold" or metadata["split_mode"] == "presplit_kfold":
+    if (
+        metadata["split_mode"] == "new_split_kfold"
+        or metadata["split_mode"] == "presplit_kfold"
+    ):
         split = "folds"
     elif metadata["split_mode"] == "trainvaltest":
         split = "TVT"
-        
+
     print(f"- Test score for task {task}:")
     if split == "folds":
-        print(model_clean_results[task][0]['aggregated_scores']['test_score_mean'])
+        print(model_clean_results[task][0]["aggregated_scores"]["test_score_mean"])
     elif split == "TVT":
-        print(model_clean_results[task][0]['test']['test_score'])
-    
+        print(model_clean_results[task][0]["test"]["test_score"])
+
     print("")
 
 
@@ -606,7 +644,8 @@ MODEL_NAME = "GURA.fusion_wav2vec2"
 
 import os
 import json
-with open('datasets.json', 'r') as file:
+
+with open("datasets.json", "r") as file:
     datasets = json.load(file)
 
 
@@ -623,7 +662,10 @@ with open('datasets.json', 'r') as file:
 # Compute embeddings
 # Note: to re run make sure the embedding directory is deleted.
 import GURA.fusion_wav2vec2
-get_ipython().system('python -m heareval.embeddings.runner GURA.fusion_wav2vec2 --tasks-dir ./tasks/ --embeddings-dir embeddings')
+
+get_ipython().system(
+    "python -m heareval.embeddings.runner GURA.fusion_wav2vec2 --tasks-dir ./tasks/ --embeddings-dir embeddings"
+)
 
 
 # In[4]:
@@ -648,19 +690,21 @@ else:
 
 # Evaluate embeddings + save MLP
 # Note: to re run make sure the predictions files in the task embedding directory and the saved models are deleted.
-get_ipython().run_line_magic('env', 'CUBLAS_WORKSPACE_CONFIG=:4096:8')
+get_ipython().run_line_magic("env", "CUBLAS_WORKSPACE_CONFIG=:4096:8")
 
 # Train, evaluate and save MLP classifier/s on GURA.fusion_wav2vec2 embeddings + save MLP
-get_ipython().system('python3 -m heareval.predictions.runner embeddings/GURA.fusion_wav2vec2/*  --save-trained True')
+get_ipython().system(
+    "python3 -m heareval.predictions.runner embeddings/GURA.fusion_wav2vec2/*  --save-trained True"
+)
 
 
 # In[3]:
 
 
 # Rename saved models folders and files
-with open('savedModelsName.json', 'r') as file:
+with open("savedModelsName.json", "r") as file:
     models_name = json.load(file)
-    
+
 models_count = 0
 for task_name in models_name:
     old_name = task_name["old_name"]
@@ -688,7 +732,7 @@ for task_name in models_name:
 models_count = 0
 for task in datasets:
     task_name = task["name"]
-    
+
     models_path = f"savedModels/{MODEL_NAME}/{task_name}"
     if os.path.exists(models_path):
         models_count += 1
@@ -725,20 +769,23 @@ for task in model_clean_results:
     embeddings_path = f"embeddings/{MODEL_NAME}/{task}"
     metadata_path = f"{embeddings_path}/task_metadata.json"
 
-    with open(metadata_path, 'r') as file:
+    with open(metadata_path, "r") as file:
         metadata = json.load(file)
 
-    if metadata["split_mode"] == "new_split_kfold" or metadata["split_mode"] == "presplit_kfold":
+    if (
+        metadata["split_mode"] == "new_split_kfold"
+        or metadata["split_mode"] == "presplit_kfold"
+    ):
         split = "folds"
     elif metadata["split_mode"] == "trainvaltest":
         split = "TVT"
-        
+
     print(f"- Test score for task {task}:")
     if split == "folds":
-        print(model_clean_results[task][0]['aggregated_scores']['test_score_mean'])
+        print(model_clean_results[task][0]["aggregated_scores"]["test_score_mean"])
     elif split == "TVT":
-        print(model_clean_results[task][0]['test']['test_score'])
-    
+        print(model_clean_results[task][0]["test"]["test_score"])
+
     print("")
 
 
@@ -762,7 +809,8 @@ MODEL_NAME = "GURA.fusion_cat_xwc"
 
 import os
 import json
-with open('datasets.json', 'r') as file:
+
+with open("datasets.json", "r") as file:
     datasets = json.load(file)
 
 
@@ -779,7 +827,10 @@ with open('datasets.json', 'r') as file:
 # Compute embeddings
 # Note: to re run make sure the embedding directory is deleted.
 import GURA.fusion_cat_xwc
-get_ipython().system('python -m heareval.embeddings.runner GURA.fusion_cat_xwc --tasks-dir ./tasks/ --embeddings-dir embeddings')
+
+get_ipython().system(
+    "python -m heareval.embeddings.runner GURA.fusion_cat_xwc --tasks-dir ./tasks/ --embeddings-dir embeddings"
+)
 
 
 # In[10]:
@@ -804,19 +855,21 @@ else:
 
 # Evaluate embeddings + save MLP
 # Note: to re run make sure the predictions files in the task embedding directory and the saved models are deleted.
-get_ipython().run_line_magic('env', 'CUBLAS_WORKSPACE_CONFIG=:4096:8')
+get_ipython().run_line_magic("env", "CUBLAS_WORKSPACE_CONFIG=:4096:8")
 
 # Train, evaluate and save MLP classifier/s on GURA.fusion_cat_xwc embeddings + save MLP
-get_ipython().system('python3 -m heareval.predictions.runner embeddings/GURA.fusion_cat_xwc/*  --save-trained True')
+get_ipython().system(
+    "python3 -m heareval.predictions.runner embeddings/GURA.fusion_cat_xwc/*  --save-trained True"
+)
 
 
 # In[2]:
 
 
 # Rename saved models folders and files
-with open('savedModelsName.json', 'r') as file:
+with open("savedModelsName.json", "r") as file:
     models_name = json.load(file)
-    
+
 models_count = 0
 for task_name in models_name:
     old_name = task_name["old_name"]
@@ -844,7 +897,7 @@ for task_name in models_name:
 models_count = 0
 for task in datasets:
     task_name = task["name"]
-    
+
     models_path = f"savedModels/{MODEL_NAME}/{task_name}"
     if os.path.exists(models_path):
         models_count += 1
@@ -881,20 +934,23 @@ for task in model_clean_results:
     embeddings_path = f"embeddings/{MODEL_NAME}/{task}"
     metadata_path = f"{embeddings_path}/task_metadata.json"
 
-    with open(metadata_path, 'r') as file:
+    with open(metadata_path, "r") as file:
         metadata = json.load(file)
 
-    if metadata["split_mode"] == "new_split_kfold" or metadata["split_mode"] == "presplit_kfold":
+    if (
+        metadata["split_mode"] == "new_split_kfold"
+        or metadata["split_mode"] == "presplit_kfold"
+    ):
         split = "folds"
     elif metadata["split_mode"] == "trainvaltest":
         split = "TVT"
-        
+
     print(f"- Test score for task {task}:")
     if split == "folds":
-        print(model_clean_results[task][0]['aggregated_scores']['test_score_mean'])
+        print(model_clean_results[task][0]["aggregated_scores"]["test_score_mean"])
     elif split == "TVT":
-        print(model_clean_results[task][0]['test']['test_score'])
-    
+        print(model_clean_results[task][0]["test"]["test_score"])
+
     print("")
 
 
@@ -919,7 +975,8 @@ MODEL_NAME = "GURA.avg_xwc"
 
 import os
 import json
-with open('datasets.json', 'r') as file:
+
+with open("datasets.json", "r") as file:
     datasets = json.load(file)
 
 
@@ -936,7 +993,10 @@ with open('datasets.json', 'r') as file:
 # Compute embeddings
 # Note: to re run make sure the embedding directory is deleted.
 import GURA.avg_xwc
-get_ipython().system('python -m heareval.embeddings.runner GURA.avg_xwc --tasks-dir ./tasks/ --embeddings-dir embeddings')
+
+get_ipython().system(
+    "python -m heareval.embeddings.runner GURA.avg_xwc --tasks-dir ./tasks/ --embeddings-dir embeddings"
+)
 
 
 # In[3]:
@@ -961,19 +1021,21 @@ else:
 
 # Evaluate embeddings + save MLP
 # Note: to re run make sure the predictions files in the task embedding directory and the saved models are deleted.
-get_ipython().run_line_magic('env', 'CUBLAS_WORKSPACE_CONFIG=:4096:8')
+get_ipython().run_line_magic("env", "CUBLAS_WORKSPACE_CONFIG=:4096:8")
 
 # Train, evaluate and save MLP classifier/s on GURA.avg_xwc embeddings + save MLP
-get_ipython().system('python3 -m heareval.predictions.runner embeddings/GURA.avg_xwc/*  --save-trained True')
+get_ipython().system(
+    "python3 -m heareval.predictions.runner embeddings/GURA.avg_xwc/*  --save-trained True"
+)
 
 
 # In[4]:
 
 
 # Rename saved models folders and files
-with open('savedModelsName.json', 'r') as file:
+with open("savedModelsName.json", "r") as file:
     models_name = json.load(file)
-    
+
 models_count = 0
 for task_name in models_name:
     old_name = task_name["old_name"]
@@ -1001,7 +1063,7 @@ for task_name in models_name:
 models_count = 0
 for task in datasets:
     task_name = task["name"]
-    
+
     models_path = f"savedModels/{MODEL_NAME}/{task_name}"
     if os.path.exists(models_path):
         models_count += 1
@@ -1038,20 +1100,23 @@ for task in model_clean_results:
     embeddings_path = f"embeddings/{MODEL_NAME}/{task}"
     metadata_path = f"{embeddings_path}/task_metadata.json"
 
-    with open(metadata_path, 'r') as file:
+    with open(metadata_path, "r") as file:
         metadata = json.load(file)
 
-    if metadata["split_mode"] == "new_split_kfold" or metadata["split_mode"] == "presplit_kfold":
+    if (
+        metadata["split_mode"] == "new_split_kfold"
+        or metadata["split_mode"] == "presplit_kfold"
+    ):
         split = "folds"
     elif metadata["split_mode"] == "trainvaltest":
         split = "TVT"
-        
+
     print(f"- Test score for task {task}:")
     if split == "folds":
-        print(model_clean_results[task][0]['aggregated_scores']['test_score_mean'])
+        print(model_clean_results[task][0]["aggregated_scores"]["test_score_mean"])
     elif split == "TVT":
-        print(model_clean_results[task][0]['test']['test_score'])
-    
+        print(model_clean_results[task][0]["test"]["test_score"])
+
     print("")
 
 
@@ -1073,7 +1138,8 @@ MODEL_NAME = "panns_hear"
 
 import os
 import json
-with open('datasets.json', 'r') as file:
+
+with open("datasets.json", "r") as file:
     datasets = json.load(file)
 
 
@@ -1091,7 +1157,10 @@ with open('datasets.json', 'r') as file:
 # Compute embeddings
 # Note: to re run make sure the embedding directory is deleted.
 import panns_hear
-get_ipython().system('python -m heareval.embeddings.runner panns_hear --tasks-dir ./tasks/ --embeddings-dir embeddings --model ./modelWeights/hear2021-panns_hear.pth')
+
+get_ipython().system(
+    "python -m heareval.embeddings.runner panns_hear --tasks-dir ./tasks/ --embeddings-dir embeddings --model ./modelWeights/hear2021-panns_hear.pth"
+)
 
 
 # In[6]:
@@ -1116,19 +1185,21 @@ else:
 
 # Evaluate embeddings + save MLP
 # Note: to re run make sure the predictions files in the task embedding directory and the saved models are deleted.
-get_ipython().run_line_magic('env', 'CUBLAS_WORKSPACE_CONFIG=:4096:8')
+get_ipython().run_line_magic("env", "CUBLAS_WORKSPACE_CONFIG=:4096:8")
 
 # Train, evaluate and save MLP classifier/s on panns_hear embeddings + save MLP
-get_ipython().system('python3 -m heareval.predictions.runner embeddings/panns_hear/*  --save-trained True')
+get_ipython().system(
+    "python3 -m heareval.predictions.runner embeddings/panns_hear/*  --save-trained True"
+)
 
 
 # In[2]:
 
 
 # Rename saved models folders and files
-with open('savedModelsName.json', 'r') as file:
+with open("savedModelsName.json", "r") as file:
     models_name = json.load(file)
-    
+
 models_count = 0
 for task_name in models_name:
     old_name = task_name["old_name"]
@@ -1156,7 +1227,7 @@ for task_name in models_name:
 models_count = 0
 for task in datasets:
     task_name = task["name"]
-    
+
     models_path = f"savedModels/{MODEL_NAME}/{task_name}"
     if os.path.exists(models_path):
         models_count += 1
@@ -1193,20 +1264,23 @@ for task in model_clean_results:
     embeddings_path = f"embeddings/{MODEL_NAME}/{task}"
     metadata_path = f"{embeddings_path}/task_metadata.json"
 
-    with open(metadata_path, 'r') as file:
+    with open(metadata_path, "r") as file:
         metadata = json.load(file)
 
-    if metadata["split_mode"] == "new_split_kfold" or metadata["split_mode"] == "presplit_kfold":
+    if (
+        metadata["split_mode"] == "new_split_kfold"
+        or metadata["split_mode"] == "presplit_kfold"
+    ):
         split = "folds"
     elif metadata["split_mode"] == "trainvaltest":
         split = "TVT"
-        
+
     print(f"- Test score for task {task}:")
     if split == "folds":
-        print(model_clean_results[task][0]['aggregated_scores']['test_score_mean'])
+        print(model_clean_results[task][0]["aggregated_scores"]["test_score_mean"])
     elif split == "TVT":
-        print(model_clean_results[task][0]['test']['test_score'])
-    
+        print(model_clean_results[task][0]["test"]["test_score"])
+
     print("")
 
 
@@ -1229,7 +1303,8 @@ MODEL_NAME = "hear21passt.base"
 
 import os
 import json
-with open('datasets.json', 'r') as file:
+
+with open("datasets.json", "r") as file:
     datasets = json.load(file)
 
 
@@ -1247,7 +1322,10 @@ with open('datasets.json', 'r') as file:
 # Compute embeddings
 # Note: to re run make sure the embedding directory is deleted.
 import hear21passt.base
-get_ipython().system('python -m heareval.embeddings.runner hear21passt.base --tasks-dir ./tasks/ --embeddings-dir embeddings --model ./modelWeights/hear2021-hear21passt.base.pt')
+
+get_ipython().system(
+    "python -m heareval.embeddings.runner hear21passt.base --tasks-dir ./tasks/ --embeddings-dir embeddings --model ./modelWeights/hear2021-hear21passt.base.pt"
+)
 
 
 # In[6]:
@@ -1272,19 +1350,21 @@ else:
 
 # Evaluate embeddings + save MLP
 # Note: to re run make sure the predictions files in the task embedding directory and the saved models are deleted.
-get_ipython().run_line_magic('env', 'CUBLAS_WORKSPACE_CONFIG=:4096:8')
+get_ipython().run_line_magic("env", "CUBLAS_WORKSPACE_CONFIG=:4096:8")
 
 # Train, evaluate and save MLP classifier/s on hear21passt.base embeddings + save MLP
-get_ipython().system('python3 -m heareval.predictions.runner embeddings/hear21passt.base/*  --save-trained True')
+get_ipython().system(
+    "python3 -m heareval.predictions.runner embeddings/hear21passt.base/*  --save-trained True"
+)
 
 
 # In[2]:
 
 
 # Rename saved models folders and files
-with open('savedModelsName.json', 'r') as file:
+with open("savedModelsName.json", "r") as file:
     models_name = json.load(file)
-    
+
 models_count = 0
 for task_name in models_name:
     old_name = task_name["old_name"]
@@ -1312,7 +1392,7 @@ for task_name in models_name:
 models_count = 0
 for task in datasets:
     task_name = task["name"]
-    
+
     models_path = f"savedModels/{MODEL_NAME}/{task_name}"
     if os.path.exists(models_path):
         models_count += 1
@@ -1349,20 +1429,23 @@ for task in model_clean_results:
     embeddings_path = f"embeddings/{MODEL_NAME}/{task}"
     metadata_path = f"{embeddings_path}/task_metadata.json"
 
-    with open(metadata_path, 'r') as file:
+    with open(metadata_path, "r") as file:
         metadata = json.load(file)
 
-    if metadata["split_mode"] == "new_split_kfold" or metadata["split_mode"] == "presplit_kfold":
+    if (
+        metadata["split_mode"] == "new_split_kfold"
+        or metadata["split_mode"] == "presplit_kfold"
+    ):
         split = "folds"
     elif metadata["split_mode"] == "trainvaltest":
         split = "TVT"
-        
+
     print(f"- Test score for task {task}:")
     if split == "folds":
-        print(model_clean_results[task][0]['aggregated_scores']['test_score_mean'])
+        print(model_clean_results[task][0]["aggregated_scores"]["test_score_mean"])
     elif split == "TVT":
-        print(model_clean_results[task][0]['test']['test_score'])
-    
+        print(model_clean_results[task][0]["test"]["test_score"])
+
     print("")
 
 
@@ -1389,7 +1472,8 @@ MODEL_NAME = "audio_dbert"
 
 import os
 import json
-with open('datasets.json', 'r') as file:
+
+with open("datasets.json", "r") as file:
     datasets = json.load(file)
 
 
@@ -1407,7 +1491,10 @@ with open('datasets.json', 'r') as file:
 # Compute embeddings
 # Note: to re run make sure the embedding directory is deleted.
 import audio_dbert
-get_ipython().system('python -m heareval.embeddings.runner audio_dbert --tasks-dir ./tasks/ --embeddings-dir embeddings --model ./modelWeights/hear2021-audio_dbert.pt')
+
+get_ipython().system(
+    "python -m heareval.embeddings.runner audio_dbert --tasks-dir ./tasks/ --embeddings-dir embeddings --model ./modelWeights/hear2021-audio_dbert.pt"
+)
 
 
 # In[2]:
@@ -1432,19 +1519,21 @@ else:
 
 # Evaluate embeddings + save MLP
 # Note: to re run make sure the predictions files in the task embedding directory and the saved models are deleted.
-get_ipython().run_line_magic('env', 'CUBLAS_WORKSPACE_CONFIG=:4096:8')
+get_ipython().run_line_magic("env", "CUBLAS_WORKSPACE_CONFIG=:4096:8")
 
 # Train, evaluate and save MLP classifier/s on audio_dbert embeddings + save MLP
-get_ipython().system('python3 -m heareval.predictions.runner embeddings/audio_dbert/*  --save-trained True')
+get_ipython().system(
+    "python3 -m heareval.predictions.runner embeddings/audio_dbert/*  --save-trained True"
+)
 
 
 # In[3]:
 
 
 # Rename saved models folders and files
-with open('savedModelsName.json', 'r') as file:
+with open("savedModelsName.json", "r") as file:
     models_name = json.load(file)
-    
+
 models_count = 0
 for task_name in models_name:
     old_name = task_name["old_name"]
@@ -1472,7 +1561,7 @@ for task_name in models_name:
 models_count = 0
 for task in datasets:
     task_name = task["name"]
-    
+
     models_path = f"savedModels/{MODEL_NAME}/{task_name}"
     if os.path.exists(models_path):
         models_count += 1
@@ -1509,20 +1598,23 @@ for task in model_clean_results:
     embeddings_path = f"embeddings/{MODEL_NAME}/{task}"
     metadata_path = f"{embeddings_path}/task_metadata.json"
 
-    with open(metadata_path, 'r') as file:
+    with open(metadata_path, "r") as file:
         metadata = json.load(file)
 
-    if metadata["split_mode"] == "new_split_kfold" or metadata["split_mode"] == "presplit_kfold":
+    if (
+        metadata["split_mode"] == "new_split_kfold"
+        or metadata["split_mode"] == "presplit_kfold"
+    ):
         split = "folds"
     elif metadata["split_mode"] == "trainvaltest":
         split = "TVT"
-        
+
     print(f"- Test score for task {task}:")
     if split == "folds":
-        print(model_clean_results[task][0]['aggregated_scores']['test_score_mean'])
+        print(model_clean_results[task][0]["aggregated_scores"]["test_score_mean"])
     elif split == "TVT":
-        print(model_clean_results[task][0]['test']['test_score'])
-    
+        print(model_clean_results[task][0]["test"]["test_score"])
+
     print("")
 
 
@@ -1539,4 +1631,3 @@ for task in model_clean_results:
 
 
 # Task Metadata was wrong for mrindingam stroke and tonic and carried over to emb folder, now it is fixed in the tasks folder.
-
