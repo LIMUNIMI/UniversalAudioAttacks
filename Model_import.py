@@ -104,7 +104,7 @@ atexit.register(close_log)
 # In[1]:
 
 
-get_ipython().system("python3 -m heareval.embeddings.runner --help")
+# Removed IPython help command
 
 
 # #### Wav2Vec
@@ -307,7 +307,7 @@ with open("datasets.json", "r") as file:
 # Note: to re run make sure the embedding directory is deleted.
 import GURA.fusion_hubert_xlarge
 
-get_ipython().system(
+run_command(
     "python -m heareval.embeddings.runner GURA.fusion_hubert_xlarge --tasks-dir ./tasks/ --embeddings-dir embeddings"
 )
 
@@ -320,7 +320,7 @@ get_ipython().system(
 # Note: to re run make sure the embedding directory is deleted.
 import GURA.fusion_hubert_xlarge
 
-get_ipython().system(
+run_command(
     "python -m heareval.embeddings.runner GURA.fusion_hubert_xlarge --tasks-dir ./tasks/ --embeddings-dir embeddings"
 )
 
@@ -347,10 +347,10 @@ else:
 
 # Evaluate embeddings + save MLP
 # Note: to re run make sure the predictions files in the task embedding directory and the saved models are deleted.
-get_ipython().run_line_magic("env", "CUBLAS_WORKSPACE_CONFIG=:4096:8")
+os.environ["CUBLAS_WORKSPACE_CONFIG"] = ":4096:8"
 
 # Train, evaluate and save MLP classifier/s on GURA.fusion_hubert_xlarge embeddings + save MLP
-get_ipython().system(
+run_command(
     "python3 -m heareval.predictions.runner embeddings/GURA.fusion_hubert_xlarge/*  --save-trained True"
 )
 
@@ -361,10 +361,10 @@ get_ipython().system(
 # For crema-D (added later)
 # Evaluate embeddings + save MLP
 # Note: to re run make sure the predictions files in the task embedding directory and the saved models are deleted.
-get_ipython().run_line_magic("env", "CUBLAS_WORKSPACE_CONFIG=:4096:8")
+os.environ["CUBLAS_WORKSPACE_CONFIG"] = ":4096:8"
 
 # Train, evaluate and save MLP classifier/s on GURA.fusion_hubert_xlarge embeddings + save MLP
-get_ipython().system(
+run_command(
     "python3 -m heareval.predictions.runner embeddings/GURA.fusion_hubert_xlarge/*  --save-trained True"
 )
 
@@ -498,7 +498,7 @@ with open("datasets.json", "r") as file:
 # Note: to re run make sure the embedding directory is deleted.
 import efficient_latent
 
-get_ipython().system(
+run_command(
     "python -m heareval.embeddings.runner efficient_latent --tasks-dir ./tasks/ --embeddings-dir embeddings --model ./modelWeights/hear2021-efficient_latent.pt"
 )
 
@@ -525,10 +525,10 @@ else:
 
 # Evaluate embeddings + save MLP
 # Note: to re run make sure the predictions files in the task embedding directory and the saved models are deleted.
-get_ipython().run_line_magic("env", "CUBLAS_WORKSPACE_CONFIG=:4096:8")
+os.environ["CUBLAS_WORKSPACE_CONFIG"] = ":4096:8"
 
 # Train, evaluate and save MLP classifier/s on efficient_latent embeddings + save MLP
-get_ipython().system(
+run_command(
     "python3 -m heareval.predictions.runner embeddings/efficient_latent/*  --save-trained True"
 )
 
@@ -663,7 +663,7 @@ with open("datasets.json", "r") as file:
 # Note: to re run make sure the embedding directory is deleted.
 import GURA.fusion_wav2vec2
 
-get_ipython().system(
+run_command(
     "python -m heareval.embeddings.runner GURA.fusion_wav2vec2 --tasks-dir ./tasks/ --embeddings-dir embeddings"
 )
 
@@ -690,10 +690,10 @@ else:
 
 # Evaluate embeddings + save MLP
 # Note: to re run make sure the predictions files in the task embedding directory and the saved models are deleted.
-get_ipython().run_line_magic("env", "CUBLAS_WORKSPACE_CONFIG=:4096:8")
+os.environ["CUBLAS_WORKSPACE_CONFIG"] = ":4096:8"
 
 # Train, evaluate and save MLP classifier/s on GURA.fusion_wav2vec2 embeddings + save MLP
-get_ipython().system(
+run_command(
     "python3 -m heareval.predictions.runner embeddings/GURA.fusion_wav2vec2/*  --save-trained True"
 )
 
@@ -828,7 +828,7 @@ with open("datasets.json", "r") as file:
 # Note: to re run make sure the embedding directory is deleted.
 import GURA.fusion_cat_xwc
 
-get_ipython().system(
+run_command(
     "python -m heareval.embeddings.runner GURA.fusion_cat_xwc --tasks-dir ./tasks/ --embeddings-dir embeddings"
 )
 
@@ -855,10 +855,10 @@ else:
 
 # Evaluate embeddings + save MLP
 # Note: to re run make sure the predictions files in the task embedding directory and the saved models are deleted.
-get_ipython().run_line_magic("env", "CUBLAS_WORKSPACE_CONFIG=:4096:8")
+os.environ["CUBLAS_WORKSPACE_CONFIG"] = ":4096:8"
 
 # Train, evaluate and save MLP classifier/s on GURA.fusion_cat_xwc embeddings + save MLP
-get_ipython().system(
+run_command(
     "python3 -m heareval.predictions.runner embeddings/GURA.fusion_cat_xwc/*  --save-trained True"
 )
 
@@ -994,7 +994,7 @@ with open("datasets.json", "r") as file:
 # Note: to re run make sure the embedding directory is deleted.
 import GURA.avg_xwc
 
-get_ipython().system(
+run_command(
     "python -m heareval.embeddings.runner GURA.avg_xwc --tasks-dir ./tasks/ --embeddings-dir embeddings"
 )
 
@@ -1021,10 +1021,10 @@ else:
 
 # Evaluate embeddings + save MLP
 # Note: to re run make sure the predictions files in the task embedding directory and the saved models are deleted.
-get_ipython().run_line_magic("env", "CUBLAS_WORKSPACE_CONFIG=:4096:8")
+os.environ["CUBLAS_WORKSPACE_CONFIG"] = ":4096:8"
 
 # Train, evaluate and save MLP classifier/s on GURA.avg_xwc embeddings + save MLP
-get_ipython().system(
+run_command(
     "python3 -m heareval.predictions.runner embeddings/GURA.avg_xwc/*  --save-trained True"
 )
 
@@ -1158,7 +1158,7 @@ with open("datasets.json", "r") as file:
 # Note: to re run make sure the embedding directory is deleted.
 import panns_hear
 
-get_ipython().system(
+run_command(
     "python -m heareval.embeddings.runner panns_hear --tasks-dir ./tasks/ --embeddings-dir embeddings --model ./modelWeights/hear2021-panns_hear.pth"
 )
 
@@ -1185,10 +1185,10 @@ else:
 
 # Evaluate embeddings + save MLP
 # Note: to re run make sure the predictions files in the task embedding directory and the saved models are deleted.
-get_ipython().run_line_magic("env", "CUBLAS_WORKSPACE_CONFIG=:4096:8")
+os.environ["CUBLAS_WORKSPACE_CONFIG"] = ":4096:8"
 
 # Train, evaluate and save MLP classifier/s on panns_hear embeddings + save MLP
-get_ipython().system(
+run_command(
     "python3 -m heareval.predictions.runner embeddings/panns_hear/*  --save-trained True"
 )
 
@@ -1323,7 +1323,7 @@ with open("datasets.json", "r") as file:
 # Note: to re run make sure the embedding directory is deleted.
 import hear21passt.base
 
-get_ipython().system(
+run_command(
     "python -m heareval.embeddings.runner hear21passt.base --tasks-dir ./tasks/ --embeddings-dir embeddings --model ./modelWeights/hear2021-hear21passt.base.pt"
 )
 
@@ -1350,10 +1350,10 @@ else:
 
 # Evaluate embeddings + save MLP
 # Note: to re run make sure the predictions files in the task embedding directory and the saved models are deleted.
-get_ipython().run_line_magic("env", "CUBLAS_WORKSPACE_CONFIG=:4096:8")
+os.environ["CUBLAS_WORKSPACE_CONFIG"] = ":4096:8"
 
 # Train, evaluate and save MLP classifier/s on hear21passt.base embeddings + save MLP
-get_ipython().system(
+run_command(
     "python3 -m heareval.predictions.runner embeddings/hear21passt.base/*  --save-trained True"
 )
 
@@ -1492,7 +1492,7 @@ with open("datasets.json", "r") as file:
 # Note: to re run make sure the embedding directory is deleted.
 import audio_dbert
 
-get_ipython().system(
+run_command(
     "python -m heareval.embeddings.runner audio_dbert --tasks-dir ./tasks/ --embeddings-dir embeddings --model ./modelWeights/hear2021-audio_dbert.pt"
 )
 
@@ -1519,10 +1519,10 @@ else:
 
 # Evaluate embeddings + save MLP
 # Note: to re run make sure the predictions files in the task embedding directory and the saved models are deleted.
-get_ipython().run_line_magic("env", "CUBLAS_WORKSPACE_CONFIG=:4096:8")
+os.environ["CUBLAS_WORKSPACE_CONFIG"] = ":4096:8"
 
 # Train, evaluate and save MLP classifier/s on audio_dbert embeddings + save MLP
-get_ipython().system(
+run_command(
     "python3 -m heareval.predictions.runner embeddings/audio_dbert/*  --save-trained True"
 )
 
