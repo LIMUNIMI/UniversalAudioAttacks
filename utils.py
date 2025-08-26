@@ -33,7 +33,7 @@ def run_command(cmd):
 # Patch the heareval.gpu_max_mem module dynamically
 def patch_gpu_max_mem_dynamically():
     """
-    Monkey-patch the device_name method in heareval.gpu_max_mem to handle
+    Monkey-patch the device_name function in heareval.gpu_max_mem to handle
     both bytes and string returns from nvmlDeviceGetName.
     """
     try:
@@ -41,24 +41,26 @@ def patch_gpu_max_mem_dynamically():
         if 'heareval.gpu_max_mem' in sys.modules:
             gpu_max_mem = sys.modules['heareval.gpu_max_mem']
         else:
-            # Import the module to patch it
             import heareval.gpu_max_mem as gpu_max_mem
         
-        # Store the original method
-        original_device_name = gpu_max_mem.GPUMaxMem.device_name
-        
-        # Create a patched version
-        def patched_device_name(self):
-            name = original_device_name(self)
-            if isinstance(name, bytes):
-                return name.decode("utf-8")
-            else:
-                return name  # already a string
-        
-        # Replace the method
-        gpu_max_mem.GPUMaxMem.device_name = patched_device_name
-        print("Successfully patched heareval.gpu_max_mem.device_name() dynamically")
-        return True
+        # Check if device_name is a callable function in the module
+        if hasattr(gpu_max_mem, 'device_name') and callable(gpu_max_mem.device_name):
+            original_device_name = gpu_max_mem.device_name
+            
+            def patched_device_name():
+                name = original_device_name()
+                if isinstance(name, bytes):
+                    return name.decode("utf-8")
+                else:
+                    return name  # already a string
+            
+            # Replace the function
+            gpu_max_mem.device_name = patched_device_name
+            print("Successfully patched heareval.gpu_max_mem.device_name() function")
+            return True
+        else:
+            print("heareval.gpu_max_mem does not have a device_name function or it is not callable")
+            return False
         
     except ImportError:
         print("heareval.gpu_max_mem not available for patching (not installed yet)")
