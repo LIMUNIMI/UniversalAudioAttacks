@@ -70,5 +70,4 @@ def patch_gpu_max_mem_dynamically():
         return False
 
 
-# Apply the patch when utils is imported
-patch_gpu_max_mem_dynamically()
+# Don't apply patch automatically - we'll apply it when needed

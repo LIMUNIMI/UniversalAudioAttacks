@@ -135,6 +135,10 @@ with open("datasets.json", "r") as file:
 # Note: to re run make sure the embedding directory is deleted.
 import hearbaseline.wav2vec2
 
+# Apply patch right before running the command
+from utils import patch_gpu_max_mem_dynamically
+patch_gpu_max_mem_dynamically()
+
 run_command(
     "python -m heareval.embeddings.runner hearbaseline.wav2vec2 --tasks-dir ./tasks/ --embeddings-dir embeddings"
 )
