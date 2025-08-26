@@ -1,0 +1,18 @@
+[project]
+name = "universalaudioattacks"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = "==3.12.*"
+dependencies = [
+    "audio-dbert",
+    "efficient-latent",
+    "fairseq",
+    "pydub>=0.25.1",
+]
+
+[tool.uv.sources]
+audio-dbert = { git = "https://github.com/RF5/audio_dbert.git" }
+# the following repo by 00sapo are forks that fix dependency constraints
+fairseq = { git = "https://github.com/00sapo/fairseq.git" }
+efficient-latent = { git = "https://github.com/00sapo/HEAR2021_EfficientLatent.git" }

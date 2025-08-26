@@ -1,3 +1,4 @@
 tasks_compressed
 tasks
 .ipynb_checkpoints
+.aider*
