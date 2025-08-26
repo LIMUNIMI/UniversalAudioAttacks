@@ -33,8 +33,8 @@ def run_command(cmd):
 # Patch the heareval.gpu_max_mem module dynamically
 def patch_gpu_max_mem_dynamically():
     """
-    Monkey-patch the device_name function in heareval.gpu_max_mem to handle
-    both bytes and string returns from nvmlDeviceGetName.
+    Monkey-patch the nvmlDeviceGetName function in heareval.gpu_max_mem to ensure
+    it always returns bytes so that the .decode() call in device_name() works correctly.
     """
     try:
         # Import the module (or get it if already imported)
@@ -43,23 +43,22 @@ def patch_gpu_max_mem_dynamically():
         else:
             import heareval.gpu_max_mem as gpu_max_mem
         
-        # Check if device_name is a callable function in the module
-        if hasattr(gpu_max_mem, 'device_name') and callable(gpu_max_mem.device_name):
-            original_device_name = gpu_max_mem.device_name
+        # Check if nvmlDeviceGetName is imported in the module
+        if hasattr(gpu_max_mem, 'nvmlDeviceGetName'):
+            original_nvmlDeviceGetName = gpu_max_mem.nvmlDeviceGetName
             
-            def patched_device_name():
-                name = original_device_name()
-                if isinstance(name, bytes):
-                    return name.decode("utf-8")
-                else:
-                    return name  # already a string
+            def patched_nvmlDeviceGetName(handle):
+                result = original_nvmlDeviceGetName(handle)
+                if isinstance(result, str):
+                    return result.encode('utf-8')
+                return result
             
             # Replace the function
-            gpu_max_mem.device_name = patched_device_name
-            print("Successfully patched heareval.gpu_max_mem.device_name() function")
+            gpu_max_mem.nvmlDeviceGetName = patched_nvmlDeviceGetName
+            print("Successfully patched heareval.gpu_max_mem.nvmlDeviceGetName() function")
             return True
         else:
-            print("heareval.gpu_max_mem does not have a device_name function or it is not callable")
+            print("heareval.gpu_max_mem does not have nvmlDeviceGetName function")
             return False
         
     except ImportError:
