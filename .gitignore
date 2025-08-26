@@ -2,5 +2,8 @@ tasks_compressed
 tasks
 .ipynb_checkpoints
 .aider*
-logs/Dataset_import_2025-08-26_16-32-29.log
+logs/Dataset_import_*
+logs/Resample_*
 __pycache__
+pretrained
+embeddings
