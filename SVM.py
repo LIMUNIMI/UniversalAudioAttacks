@@ -23,6 +23,7 @@ import os
 import pandas as pd
 import sys
 from datetime import datetime
+from utils import Tee
 
 # Get script name and timestamp
 script_name = os.path.splitext(os.path.basename(__file__))[0]
@@ -34,10 +35,11 @@ image_dir = "images"
 os.makedirs(log_dir, exist_ok=True)
 os.makedirs(image_dir, exist_ok=True)
 
-# Redirect stdout and stderr to a log file
+# Redirect stdout and stderr to a log file and terminal
 log_file = open(f"{log_dir}/{script_name}_{timestamp}.log", 'w')
-sys.stdout = log_file
-sys.stderr = log_file
+tee = Tee(sys.stdout, log_file)
+sys.stdout = tee
+sys.stderr = tee
 
 # Ensure log file is closed on exit
 def close_log():

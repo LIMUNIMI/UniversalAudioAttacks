@@ -35,6 +35,7 @@
 
 import sys
 from datetime import datetime
+from utils import Tee, run_command
 
 # Get script name and timestamp
 script_name = os.path.splitext(os.path.basename(__file__))[0]
@@ -46,10 +47,11 @@ image_dir = "images"
 os.makedirs(log_dir, exist_ok=True)
 os.makedirs(image_dir, exist_ok=True)
 
-# Redirect stdout and stderr to a log file
+# Redirect stdout and stderr to a log file and terminal
 log_file = open(f"{log_dir}/{script_name}_{timestamp}.log", 'w')
-sys.stdout = log_file
-sys.stderr = log_file
+tee = Tee(sys.stdout, log_file)
+sys.stdout = tee
+sys.stderr = tee
 
 # Ensure log file is closed on exit
 def close_log():
@@ -126,7 +128,7 @@ with open('datasets.json', 'r') as file:
 # Compute embeddings
 # Note: to re run make sure the embedding directory is deleted.
 import hearbaseline.wav2vec2
-get_ipython().system('python -m heareval.embeddings.runner hearbaseline.wav2vec2 --tasks-dir ./tasks/ --embeddings-dir embeddings')
+run_command('python -m heareval.embeddings.runner hearbaseline.wav2vec2 --tasks-dir ./tasks/ --embeddings-dir embeddings')
 
 
 # In[3]:
@@ -151,10 +153,11 @@ else:
 
 # Evaluate embeddings + save MLP
 # Note: to re run make sure the predictions files in the task embedding directory and the saved models are deleted.
-get_ipython().run_line_magic('env', 'CUBLAS_WORKSPACE_CONFIG=:4096:8')
+import os
+os.environ['CUBLAS_WORKSPACE_CONFIG'] = ':4096:8'
 
 # Train and evaluate classifier using hearbaseline.wav2vec2 embeddings + save MLP
-get_ipython().system('python3 -m heareval.predictions.runner embeddings/hearbaseline.wav2vec2/* --save-trained True')
+run_command('python3 -m heareval.predictions.runner embeddings/hearbaseline.wav2vec2/* --save-trained True')
 
 
 # In[4]:
