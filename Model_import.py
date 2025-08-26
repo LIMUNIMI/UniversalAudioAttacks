@@ -136,7 +136,7 @@ with open("datasets.json", "r") as file:
 import hearbaseline.wav2vec2
 
 run_command(
-    "python -m heareval.embeddings.runner hearbaseline.wav2vec2 --tasks-dir ./tasks/ --embeddings-dir embeddings"
+    "python patched_runner.py hearbaseline.wav2vec2 --tasks-dir ./tasks/ --embeddings-dir embeddings"
 )
 
 
@@ -308,7 +308,7 @@ with open("datasets.json", "r") as file:
 import GURA.fusion_hubert_xlarge
 
 run_command(
-    "python -m heareval.embeddings.runner GURA.fusion_hubert_xlarge --tasks-dir ./tasks/ --embeddings-dir embeddings"
+    "python patched_runner.py GURA.fusion_hubert_xlarge --tasks-dir ./tasks/ --embeddings-dir embeddings"
 )
 
 
@@ -321,7 +321,7 @@ run_command(
 import GURA.fusion_hubert_xlarge
 
 run_command(
-    "python -m heareval.embeddings.runner GURA.fusion_hubert_xlarge --tasks-dir ./tasks/ --embeddings-dir embeddings"
+    "python patched_runner.py GURA.fusion_hubert_xlarge --tasks-dir ./tasks/ --embeddings-dir embeddings"
 )
 
 
@@ -499,7 +499,7 @@ with open("datasets.json", "r") as file:
 import efficient_latent
 
 run_command(
-    "python -m heareval.embeddings.runner efficient_latent --tasks-dir ./tasks/ --embeddings-dir embeddings --model ./modelWeights/hear2021-efficient_latent.pt"
+    "python patched_runner.py efficient_latent --tasks-dir ./tasks/ --embeddings-dir embeddings --model ./modelWeights/hear2021-efficient_latent.pt"
 )
 
 
@@ -664,7 +664,7 @@ with open("datasets.json", "r") as file:
 import GURA.fusion_wav2vec2
 
 run_command(
-    "python -m heareval.embeddings.runner GURA.fusion_wav2vec2 --tasks-dir ./tasks/ --embeddings-dir embeddings"
+    "python patched_runner.py GURA.fusion_wav2vec2 --tasks-dir ./tasks/ --embeddings-dir embeddings"
 )
 
 
@@ -829,7 +829,7 @@ with open("datasets.json", "r") as file:
 import GURA.fusion_cat_xwc
 
 run_command(
-    "python -m heareval.embeddings.runner GURA.fusion_cat_xwc --tasks-dir ./tasks/ --embeddings-dir embeddings"
+    "python patched_runner.py GURA.fusion_cat_xwc --tasks-dir ./tasks/ --embeddings-dir embeddings"
 )
 
 
@@ -995,7 +995,7 @@ with open("datasets.json", "r") as file:
 import GURA.avg_xwc
 
 run_command(
-    "python -m heareval.embeddings.runner GURA.avg_xwc --tasks-dir ./tasks/ --embeddings-dir embeddings"
+    "python patched_runner.py GURA.avg_xwc --tasks-dir ./tasks/ --embeddings-dir embeddings"
 )
 
 
@@ -1159,7 +1159,7 @@ with open("datasets.json", "r") as file:
 import panns_hear
 
 run_command(
-    "python -m heareval.embeddings.runner panns_hear --tasks-dir ./tasks/ --embeddings-dir embeddings --model ./modelWeights/hear2021-panns_hear.pth"
+    "python patched_runner.py panns_hear --tasks-dir ./tasks/ --embeddings-dir embeddings --model ./modelWeights/hear2021-panns_hear.pth"
 )
 
 
@@ -1324,7 +1324,7 @@ with open("datasets.json", "r") as file:
 import hear21passt.base
 
 run_command(
-    "python -m heareval.embeddings.runner hear21passt.base --tasks-dir ./tasks/ --embeddings-dir embeddings --model ./modelWeights/hear2021-hear21passt.base.pt"
+    "python patched_runner.py hear21passt.base --tasks-dir ./tasks/ --embeddings-dir embeddings --model ./modelWeights/hear2021-hear21passt.base.pt"
 )
 
 
@@ -1493,7 +1493,7 @@ with open("datasets.json", "r") as file:
 import audio_dbert
 
 run_command(
-    "python -m heareval.embeddings.runner audio_dbert --tasks-dir ./tasks/ --embeddings-dir embeddings --model ./modelWeights/hear2021-audio_dbert.pt"
+    "python patched_runner.py audio_dbert --tasks-dir ./tasks/ --embeddings-dir embeddings --model ./modelWeights/hear2021-audio_dbert.pt"
 )
 
 
