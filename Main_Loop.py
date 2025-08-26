@@ -26,6 +26,28 @@ import torch
 from art.estimators.classification import PyTorchClassifier
 import csv
 import time
+from datetime import datetime
+
+# Get script name and timestamp
+script_name = os.path.splitext(os.path.basename(__file__))[0]
+timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+
+# Create directories for logs and images
+log_dir = "logs"
+image_dir = "images"
+os.makedirs(log_dir, exist_ok=True)
+os.makedirs(image_dir, exist_ok=True)
+
+# Redirect stdout and stderr to a log file
+log_file = open(f"{log_dir}/{script_name}_{timestamp}.log", 'w')
+sys.stdout = log_file
+sys.stderr = log_file
+
+# Ensure log file is closed on exit
+def close_log():
+    log_file.close()
+import atexit
+atexit.register(close_log)
 
 
 # In[2]:
@@ -1074,6 +1096,7 @@ barplots(
     height=12,
     legend_position="center left"
 )
+plt.savefig(f'{image_dir}/{script_name}_model_barplot_{timestamp}.png')
 
 
 # In[ ]:
@@ -1481,6 +1504,7 @@ barplots(
     height=12,
     legend_position="center left"
 )
+plt.savefig(f'{image_dir}/{script_name}_distance_barplot_{timestamp}.png')
 
 
 # In[ ]:

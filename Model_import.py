@@ -33,6 +33,30 @@
 ##   !conda run pip install git+https://github.com/hearbenchmark/hear-baseline.git@4478f9fd0d6cbc47fd06c66203b0340d1b5da1ad transformers==4.16.1 --no-deps
 ##   !conda run pip install git+https://github.com/tony10101105/HEAR-2021-NeurIPS-Challenge---NTU@7b7ce730d23232cec85698728fd1048800764d06
 
+import sys
+from datetime import datetime
+
+# Get script name and timestamp
+script_name = os.path.splitext(os.path.basename(__file__))[0]
+timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+
+# Create directories for logs and images
+log_dir = "logs"
+image_dir = "images"
+os.makedirs(log_dir, exist_ok=True)
+os.makedirs(image_dir, exist_ok=True)
+
+# Redirect stdout and stderr to a log file
+log_file = open(f"{log_dir}/{script_name}_{timestamp}.log", 'w')
+sys.stdout = log_file
+sys.stderr = log_file
+
+# Ensure log file is closed on exit
+def close_log():
+    log_file.close()
+import atexit
+atexit.register(close_log)
+
 
 # In[ ]:
 
