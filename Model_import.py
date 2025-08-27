@@ -18,7 +18,7 @@
 #
 # Embeddings are evaluated (+ save MLP) with:
 #
-# *!python3 -m heareval.predictions.runner embeddings/MODEL/* --save-trained True
+# *!python3 -m heareval.predictions.runner embeddings/MODEL/*
 #
 # /embeddings/MODEL/TASK/test.predicted-scores.json  contains results
 # /savedModels/MODEL/TASK contains models (1 if single test split, k if k folds)
@@ -88,7 +88,7 @@ atexit.register(close_log)
 ##   %env CUBLAS_WORKSPACE_CONFIG=:4096:8
 
 ##   # Train and evaluate classifier using hearbaseline.wav2vec2 embeddings
-##   !python3 -m heareval.predictions.runner embeddings/hearbaseline.wav2vec2/* --save-trained True
+##   !python3 -m heareval.predictions.runner embeddings/hearbaseline.wav2vec2/*
 
 
 # In[ ]:
@@ -168,7 +168,7 @@ os.environ["CUBLAS_WORKSPACE_CONFIG"] = ":4096:8"
 
 # Train and evaluate classifier using hearbaseline.wav2vec2 embeddings + save MLP
 run_command(
-    "python3 -m heareval.predictions.runner embeddings/hearbaseline.wav2vec2/* --save-trained True"
+    "python3 -m heareval.predictions.runner embeddings/hearbaseline.wav2vec2/* "
 )
 
 
@@ -351,7 +351,7 @@ os.environ["CUBLAS_WORKSPACE_CONFIG"] = ":4096:8"
 
 # Train, evaluate and save MLP classifier/s on GURA.fusion_hubert_xlarge embeddings + save MLP
 run_command(
-    "python3 -m heareval.predictions.runner embeddings/GURA.fusion_hubert_xlarge/*  --save-trained True"
+    "python3 -m heareval.predictions.runner embeddings/GURA.fusion_hubert_xlarge/*  "
 )
 
 
@@ -365,7 +365,7 @@ os.environ["CUBLAS_WORKSPACE_CONFIG"] = ":4096:8"
 
 # Train, evaluate and save MLP classifier/s on GURA.fusion_hubert_xlarge embeddings + save MLP
 run_command(
-    "python3 -m heareval.predictions.runner embeddings/GURA.fusion_hubert_xlarge/*  --save-trained True"
+    "python3 -m heareval.predictions.runner embeddings/GURA.fusion_hubert_xlarge/*  "
 )
 
 
@@ -528,9 +528,7 @@ else:
 os.environ["CUBLAS_WORKSPACE_CONFIG"] = ":4096:8"
 
 # Train, evaluate and save MLP classifier/s on efficient_latent embeddings + save MLP
-run_command(
-    "python3 -m heareval.predictions.runner embeddings/efficient_latent/*  --save-trained True"
-)
+run_command("python3 -m heareval.predictions.runner embeddings/efficient_latent/*  ")
 
 
 # In[2]:
@@ -694,7 +692,7 @@ os.environ["CUBLAS_WORKSPACE_CONFIG"] = ":4096:8"
 
 # Train, evaluate and save MLP classifier/s on GURA.fusion_wav2vec2 embeddings + save MLP
 run_command(
-    "python3 -m heareval.predictions.runner embeddings/GURA.fusion_wav2vec2/*  --save-trained True"
+    "python3 -m heareval.predictions.runner embeddings/GURA.fusion_wav2vec2/*  "
 )
 
 
@@ -858,9 +856,7 @@ else:
 os.environ["CUBLAS_WORKSPACE_CONFIG"] = ":4096:8"
 
 # Train, evaluate and save MLP classifier/s on GURA.fusion_cat_xwc embeddings + save MLP
-run_command(
-    "python3 -m heareval.predictions.runner embeddings/GURA.fusion_cat_xwc/*  --save-trained True"
-)
+run_command("python3 -m heareval.predictions.runner embeddings/GURA.fusion_cat_xwc/*  ")
 
 
 # In[2]:
@@ -1024,9 +1020,7 @@ else:
 os.environ["CUBLAS_WORKSPACE_CONFIG"] = ":4096:8"
 
 # Train, evaluate and save MLP classifier/s on GURA.avg_xwc embeddings + save MLP
-run_command(
-    "python3 -m heareval.predictions.runner embeddings/GURA.avg_xwc/*  --save-trained True"
-)
+run_command("python3 -m heareval.predictions.runner embeddings/GURA.avg_xwc/*  ")
 
 
 # In[4]:
@@ -1188,9 +1182,7 @@ else:
 os.environ["CUBLAS_WORKSPACE_CONFIG"] = ":4096:8"
 
 # Train, evaluate and save MLP classifier/s on panns_hear embeddings + save MLP
-run_command(
-    "python3 -m heareval.predictions.runner embeddings/panns_hear/*  --save-trained True"
-)
+run_command("python3 -m heareval.predictions.runner embeddings/panns_hear/*  ")
 
 
 # In[2]:
@@ -1353,9 +1345,7 @@ else:
 os.environ["CUBLAS_WORKSPACE_CONFIG"] = ":4096:8"
 
 # Train, evaluate and save MLP classifier/s on hear21passt.base embeddings + save MLP
-run_command(
-    "python3 -m heareval.predictions.runner embeddings/hear21passt.base/*  --save-trained True"
-)
+run_command("python3 -m heareval.predictions.runner embeddings/hear21passt.base/*  ")
 
 
 # In[2]:
@@ -1522,9 +1512,7 @@ else:
 os.environ["CUBLAS_WORKSPACE_CONFIG"] = ":4096:8"
 
 # Train, evaluate and save MLP classifier/s on audio_dbert embeddings + save MLP
-run_command(
-    "python3 -m heareval.predictions.runner embeddings/audio_dbert/*  --save-trained True"
-)
+run_command("python3 -m heareval.predictions.runner embeddings/audio_dbert/*  ")
 
 
 # In[3]:

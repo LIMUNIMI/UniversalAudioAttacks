@@ -1663,11 +1663,12 @@ wheels = [
 
 [[package]]
 name = "pytorch-lightning"
-version = "2.5.3"
+version = "1.9.5"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "fsspec", extra = ["http"] },
     { name = "lightning-utilities" },
+    { name = "numpy" },
     { name = "packaging" },
     { name = "pyyaml" },
     { name = "torch" },
@@ -1675,9 +1676,9 @@ dependencies = [
     { name = "tqdm" },
     { name = "typing-extensions" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/32/a8/31fe79bf96dab33cee5537ed6f08230ed6f032834bb4ff529cc487fb40e8/pytorch_lightning-2.5.3.tar.gz", hash = "sha256:65f4eee774ee1adba181aacacffb9f677fe5c5f9fd3d01a95f603403f940be6a", size = 639897, upload-time = "2025-08-13T20:29:39.161Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/5a/fa/3f661d6bb02baeeb6184786d9d8ced02277ccae270950a93f6ce7429e75e/pytorch-lightning-1.9.5.tar.gz", hash = "sha256:925fe7b80ddf04859fa385aa493b260be4000b11a2f22447afb4a932d1f07d26", size = 605827, upload-time = "2023-04-12T15:44:31.311Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/6a/a2/5f2b7b40ec5213db5282e98dd32fd419fe5b73b5b53895dfff56fe12fed0/pytorch_lightning-2.5.3-py3-none-any.whl", hash = "sha256:7476bd36282d9253dda175b9263b07942489d70ad90bbd1bc0a59c46e012f353", size = 828186, upload-time = "2025-08-13T20:29:37.41Z" },
+    { url = "https://files.pythonhosted.org/packages/77/ed/7d91e1958f0d48b439fae0de8ece3de3ce8c3d4e03b04bd3c007ba879a49/pytorch_lightning-1.9.5-py3-none-any.whl", hash = "sha256:06821558158623c5d2ecf5d3d0374dc8bd661e0acd3acf54a6d6f71737c156c5", size = 829540, upload-time = "2023-04-12T15:44:28.319Z" },
 ]
 
 [[package]]
@@ -2367,6 +2368,7 @@ dependencies = [
     { name = "hearbaseline" },
     { name = "heareval" },
     { name = "pydub" },
+    { name = "pytorch-lightning" },
     { name = "speechbrain" },
 ]
 
@@ -2378,6 +2380,7 @@ requires-dist = [
     { name = "hearbaseline", git = "https://github.com/00sapo/hear-baseline.git" },
     { name = "heareval", git = "https://github.com/00sapo/hear-eval-kit.git" },
     { name = "pydub", specifier = ">=0.25.1" },
+    { name = "pytorch-lightning", specifier = "<2.0" },
     { name = "speechbrain", specifier = "<=0.5.15" },
 ]
 
