@@ -1,0 +1,50 @@
+[
+  {
+    "old_name": "beijing_opera-v1.0-hear2021-full",
+    "name": "beijing_opera"
+  },
+  {
+    "old_name": "esc50-v2.0.0-full",
+    "name": "esc50"
+  },
+  {
+    "old_name": "gunshot_triangulation-v1.0-full",
+    "name": "gunshot"
+  },
+  {
+    "old_name": "libricount-v1.0.0-hear2021-full",
+    "name": "libricount"
+  },
+  {
+    "old_name": "mridangam_stroke-v1.5-full",
+    "name": "mridangam_stroke"
+  },
+  {
+    "old_name": "mridangam_tonic-v1.5-full",
+    "name": "mridangam_tonic"
+  },
+  {
+    "old_name": "hear-2021.0.6/tasks/nsynth_pitch-v2.2.3-5h",
+    "name": "nsynth_pitch_5h"
+  },
+  {
+    "old_name": "hear-2021.0.6/tasks/speech_commands-v0.0.2-5h",
+    "name": "speech_commands_5h"
+  },
+  {
+    "old_name": "vox_lingua_top10-hear2021-full",
+    "name": "vox_lingua"
+  },
+  {
+    "old_name": "tfds_gtzan-1.0.0-full",
+    "name": "GTZAN_music"
+  },
+  {
+    "old_name": "tfds_gtzan_music_speech-1.0.0-full",
+    "name": "GTZAN_music_speech"
+  },
+  {
+    "old_name": "tfds_crema_d-1.0.0-full",
+    "name": "crema-D"
+  }
+]

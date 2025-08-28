@@ -699,6 +699,15 @@ wheels = [
 ]
 
 [[package]]
+name = "gura"
+version = "0.0.1"
+source = { git = "https://github.com/00sapo/HEAR-2021-NeurIPS-Challenge---NTU-GURA#3b8bc328826da4adc58843f7f49eb8c736b99f52" }
+dependencies = [
+    { name = "torchcrepe" },
+    { name = "transformers" },
+]
+
+[[package]]
 name = "h5py"
 version = "3.14.0"
 source = { registry = "https://pypi.org/simple" }
@@ -2451,11 +2460,13 @@ dependencies = [
     { name = "barplots" },
     { name = "efficient-latent" },
     { name = "fairseq" },
+    { name = "gura" },
     { name = "hearbaseline" },
     { name = "heareval" },
     { name = "pydub" },
     { name = "pytorch-lightning" },
     { name = "speechbrain" },
+    { name = "tokenizers" },
     { name = "torch" },
     { name = "torcheval" },
     { name = "torchvision" },
@@ -2468,11 +2479,13 @@ requires-dist = [
     { name = "barplots", specifier = ">=1.2.1" },
     { name = "efficient-latent", git = "https://github.com/00sapo/HEAR2021_EfficientLatent.git" },
     { name = "fairseq", git = "https://github.com/00sapo/fairseq.git" },
+    { name = "gura", git = "https://github.com/00sapo/HEAR-2021-NeurIPS-Challenge---NTU-GURA" },
     { name = "hearbaseline", git = "https://github.com/00sapo/hear-baseline.git" },
     { name = "heareval", git = "https://github.com/00sapo/hear-eval-kit.git" },
     { name = "pydub", specifier = ">=0.25.1" },
     { name = "pytorch-lightning", specifier = "<2.0" },
     { name = "speechbrain", specifier = "<=0.5.15" },
+    { name = "tokenizers", specifier = ">=0.20" },
     { name = "torch", specifier = ">=2.6" },
     { name = "torcheval", specifier = ">=0.0.7" },
     { name = "torchvision", specifier = ">=0.23.0" },
