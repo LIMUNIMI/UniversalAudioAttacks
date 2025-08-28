@@ -5,7 +5,9 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = "==3.11.*"
 dependencies = [
+  "adversarial-robustness-toolbox>=1.20.1",
   "audio-dbert",
+  "barplots>=1.2.1",
   "efficient-latent",
   "fairseq",
   "hearbaseline>=2021.1.1",
@@ -14,6 +16,7 @@ dependencies = [
   "pytorch-lightning<2.0",
   "speechbrain<=0.5.15",
   "torch>=2.6",
+  "torcheval>=0.0.7",
   "torchvision>=0.23.0",
 ]
 

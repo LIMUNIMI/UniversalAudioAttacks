@@ -12,6 +12,23 @@ wheels = [
 ]
 
 [[package]]
+name = "adversarial-robustness-toolbox"
+version = "1.20.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "numpy" },
+    { name = "scikit-learn" },
+    { name = "scipy" },
+    { name = "setuptools" },
+    { name = "six" },
+    { name = "tqdm" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/fb/a2/6eb94da010d08f05d03cdfbc53c92b15f56b943cca93893715f56dace5fa/adversarial_robustness_toolbox-1.20.1.tar.gz", hash = "sha256:5bfd751a1b1a1a2a669d961f7df0de7a9e3d95e5695e7a75ee6748cd5a339203", size = 2909075, upload-time = "2025-07-07T19:53:18.037Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/f8/07/29795237eb3b0aeeed172ab72457015578b228ca8913bbc6b7cedfb51d28/adversarial_robustness_toolbox-1.20.1-py3-none-any.whl", hash = "sha256:03b15b35d2a1a564a436b023ad90968d64542e3ff191c668bffb8207f38683f5", size = 1109371, upload-time = "2025-07-07T19:53:16.023Z" },
+]
+
+[[package]]
 name = "aiohappyeyeballs"
 version = "2.6.1"
 source = { registry = "https://pypi.org/simple" }
@@ -116,6 +133,21 @@ sdist = { url = "https://files.pythonhosted.org/packages/db/d2/87016ca9f083acadf
 wheels = [
     { url = "https://files.pythonhosted.org/packages/57/8d/30aa32745af16af0a9a650115fbe81bde7c610ed5c21b381fca0196f3a7f/audioread-3.0.1-py3-none-any.whl", hash = "sha256:4cdce70b8adc0da0a3c9e0d85fb10b3ace30fbdf8d1670fd443929b61d117c33", size = 23492, upload-time = "2023-09-27T19:27:51.334Z" },
 ]
+
+[[package]]
+name = "barplots"
+version = "1.2.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "humanize" },
+    { name = "matplotlib" },
+    { name = "numpy" },
+    { name = "pandas" },
+    { name = "pillow" },
+    { name = "sanitize-ml-labels" },
+    { name = "tqdm" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/9a/fd/563e5aca5b8ee15619e50e15de133fec0c9fcfbc72ea8add7bef5d97c2fb/barplots-1.2.1.tar.gz", hash = "sha256:0433b53832d196e403440fb626a7c21908b42dc6b5d360020cc09cf64e1a71bc", size = 21879, upload-time = "2024-10-28T15:34:30.163Z" }
 
 [[package]]
 name = "bitarray"
@@ -271,6 +303,12 @@ sdist = { url = "https://files.pythonhosted.org/packages/d8/53/6f443c9a4a8358a93
 wheels = [
     { url = "https://files.pythonhosted.org/packages/d1/d6/3965ed04c63042e047cb6a3e6ed1a63a35087b6a609aa3a15ed8ac56c221/colorama-0.4.6-py2.py3-none-any.whl", hash = "sha256:4f1d9991f5acc0ca119f9d443620b77f9d6b33703e51011c16baf57afb285fc6", size = 25335, upload-time = "2022-10-25T02:36:20.889Z" },
 ]
+
+[[package]]
+name = "compress-json"
+version = "1.1.1"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/79/e5/3974ae0348691434795902f587e33b2e0cb10fdd66a649ca32edabcc4fcb/compress_json-1.1.1.tar.gz", hash = "sha256:2d9aea3fabfe3b9a77d2a8afa005c47a6b3b3fb59d6eb833ec3337f99fba3164", size = 6629, upload-time = "2024-10-26T19:23:57.553Z" }
 
 [[package]]
 name = "contourpy"
@@ -762,6 +800,15 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/45/c9/bdbe19339f76d12985bc03572f330a01a93c04dffecaaea3061bdd7fb892/huggingface_hub-0.34.4.tar.gz", hash = "sha256:a4228daa6fb001be3f4f4bdaf9a0db00e1739235702848df00885c9b5742c85c", size = 459768, upload-time = "2025-08-08T09:14:52.365Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/39/7b/bb06b061991107cd8783f300adff3e7b7f284e330fd82f507f2a1417b11d/huggingface_hub-0.34.4-py3-none-any.whl", hash = "sha256:9b365d781739c93ff90c359844221beef048403f1bc1f1c123c191257c3c890a", size = 561452, upload-time = "2025-08-08T09:14:50.159Z" },
+]
+
+[[package]]
+name = "humanize"
+version = "4.13.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/98/1d/3062fcc89ee05a715c0b9bfe6490c00c576314f27ffee3a704122c6fd259/humanize-4.13.0.tar.gz", hash = "sha256:78f79e68f76f0b04d711c4e55d32bebef5be387148862cb1ef83d2b58e7935a0", size = 81884, upload-time = "2025-08-25T09:39:20.04Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/1e/c7/316e7ca04d26695ef0635dc81683d628350810eb8e9b2299fc08ba49f366/humanize-4.13.0-py3-none-any.whl", hash = "sha256:b810820b31891813b1673e8fec7f1ed3312061eab2f26e3fa192c393d11ed25f", size = 128869, upload-time = "2025-08-25T09:39:18.54Z" },
 ]
 
 [[package]]
@@ -1872,6 +1919,15 @@ wheels = [
 ]
 
 [[package]]
+name = "sanitize-ml-labels"
+version = "1.1.4"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "compress-json" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/f8/b1/a588878ce72505500772f3dd5729eeabb32800040265de161dd45f4b2a4c/sanitize_ml_labels-1.1.4.tar.gz", hash = "sha256:329b9b9c52fcc6d93c6cc7cde4067f2cd57eba2dafafe2932505cd16596a0e86", size = 324456, upload-time = "2024-10-28T14:53:54.046Z" }
+
+[[package]]
 name = "schema"
 version = "0.7.7"
 source = { registry = "https://pypi.org/simple" }
@@ -2253,6 +2309,18 @@ wheels = [
 ]
 
 [[package]]
+name = "torcheval"
+version = "0.0.7"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "typing-extensions" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/f2/65/8f895a132d385c3bc60023a45501637aff63b98629cf45ce47a2035c0cc3/torcheval-0.0.7.tar.gz", hash = "sha256:a498dec34137bc66c9cf1adc7353a46c604dd62255884c72dcb4e2e4fc2cd7e9", size = 100912, upload-time = "2023-08-24T22:12:44.683Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/e4/de/e7abc784b00de9d05999657d29187f1f7a3406ed10ecaf164de06482608f/torcheval-0.0.7-py3-none-any.whl", hash = "sha256:20cc34dac7aa9b32f942c8a9f014d1d02098631b6cd0b102c078600577017956", size = 179200, upload-time = "2023-08-24T22:12:42.874Z" },
+]
+
+[[package]]
 name = "torchinfo"
 version = "1.8.0"
 source = { registry = "https://pypi.org/simple" }
@@ -2378,7 +2446,9 @@ name = "universalaudioattacks"
 version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
+    { name = "adversarial-robustness-toolbox" },
     { name = "audio-dbert" },
+    { name = "barplots" },
     { name = "efficient-latent" },
     { name = "fairseq" },
     { name = "hearbaseline" },
@@ -2387,12 +2457,15 @@ dependencies = [
     { name = "pytorch-lightning" },
     { name = "speechbrain" },
     { name = "torch" },
+    { name = "torcheval" },
     { name = "torchvision" },
 ]
 
 [package.metadata]
 requires-dist = [
+    { name = "adversarial-robustness-toolbox", specifier = ">=1.20.1" },
     { name = "audio-dbert", git = "https://github.com/RF5/audio_dbert.git" },
+    { name = "barplots", specifier = ">=1.2.1" },
     { name = "efficient-latent", git = "https://github.com/00sapo/HEAR2021_EfficientLatent.git" },
     { name = "fairseq", git = "https://github.com/00sapo/fairseq.git" },
     { name = "hearbaseline", git = "https://github.com/00sapo/hear-baseline.git" },
@@ -2401,6 +2474,7 @@ requires-dist = [
     { name = "pytorch-lightning", specifier = "<2.0" },
     { name = "speechbrain", specifier = "<=0.5.15" },
     { name = "torch", specifier = ">=2.6" },
+    { name = "torcheval", specifier = ">=0.0.7" },
     { name = "torchvision", specifier = ">=0.23.0" },
 ]
 
