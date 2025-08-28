@@ -18,10 +18,10 @@
 #
 # Embeddings are evaluated (+ save MLP) with:
 #
-# *!python3 -m heareval.predictions.runner embeddings/MODEL/*
+# *!python3 -m patched_predictions_runner.py embeddings/MODEL/*
 #
 # /embeddings/MODEL/TASK/test.predicted-scores.json  contains results
-# /savedModels/MODEL/TASK contains models (1 if single test split, k if k folds)
+# /logs/embeddings/MODEL/TASK contains models (1 if single test split, k if k folds)
 
 # #### Reference Example
 
@@ -88,7 +88,7 @@ atexit.register(close_log)
 ##   %env CUBLAS_WORKSPACE_CONFIG=:4096:8
 
 ##   # Train and evaluate classifier using hearbaseline.wav2vec2 embeddings
-##   !python3 -m heareval.predictions.runner embeddings/hearbaseline.wav2vec2/*
+##   !python3 -m patched_predictions_runner.py embeddings/hearbaseline.wav2vec2/*
 
 
 # In[ ]:
@@ -168,7 +168,7 @@ os.environ["CUBLAS_WORKSPACE_CONFIG"] = ":4096:8"
 
 # Train and evaluate classifier using hearbaseline.wav2vec2 embeddings + save MLP
 run_command(
-    "python3 -m heareval.predictions.runner embeddings/hearbaseline.wav2vec2/* "
+    "python3 -m patched_predictions_runner.py embeddings/hearbaseline.wav2vec2/* "
 )
 
 
@@ -176,17 +176,17 @@ run_command(
 
 
 # Rename saved models folders and files
-with open("savedModelsName.json", "r") as file:
+with open("logs/embeddingsName.json", "r") as file:
     models_name = json.load(file)
 
 models_count = 0
 for task_name in models_name:
     old_name = task_name["old_name"]
     new_name = task_name["name"]
-    old_path = f"savedModels/{MODEL_NAME}/{old_name}"
+    old_path = f"logs/embeddings/{MODEL_NAME}/{old_name}/lightning_logs"
 
     # Rename folder
-    new_path = f"savedModels/{MODEL_NAME}/{new_name}"
+    new_path = f"logs/embeddings/{MODEL_NAME}/{new_name}"
     if os.path.exists(old_path):
         print(f"Renaming folder {old_name} to {new_name}")
         os.system(f"mv {old_path} {new_path}")
@@ -207,7 +207,7 @@ models_count = 0
 for task in datasets:
     task_name = task["name"]
 
-    models_path = f"savedModels/{MODEL_NAME}/{task_name}"
+    models_path = f"logs/embeddings/{MODEL_NAME}/{task_name}"
     if os.path.exists(models_path):
         models_count += 1
 
@@ -351,7 +351,7 @@ os.environ["CUBLAS_WORKSPACE_CONFIG"] = ":4096:8"
 
 # Train, evaluate and save MLP classifier/s on GURA.fusion_hubert_xlarge embeddings + save MLP
 run_command(
-    "python3 -m heareval.predictions.runner embeddings/GURA.fusion_hubert_xlarge/*  "
+    "python3 -m patched_predictions_runner.py embeddings/GURA.fusion_hubert_xlarge/*  "
 )
 
 
@@ -365,7 +365,7 @@ os.environ["CUBLAS_WORKSPACE_CONFIG"] = ":4096:8"
 
 # Train, evaluate and save MLP classifier/s on GURA.fusion_hubert_xlarge embeddings + save MLP
 run_command(
-    "python3 -m heareval.predictions.runner embeddings/GURA.fusion_hubert_xlarge/*  "
+    "python3 -m patched_predictions_runner.py embeddings/GURA.fusion_hubert_xlarge/*  "
 )
 
 
@@ -373,17 +373,17 @@ run_command(
 
 
 # Rename saved models folders and files
-with open("savedModelsName.json", "r") as file:
+with open("logs/embeddingsName.json", "r") as file:
     models_name = json.load(file)
 
 models_count = 0
 for task_name in models_name:
     old_name = task_name["old_name"]
     new_name = task_name["name"]
-    old_path = f"savedModels/{MODEL_NAME}/{old_name}"
+    old_path = f"logs/embeddings/{MODEL_NAME}/{old_name}/lightning_logs"
 
     # Rename folder
-    new_path = f"savedModels/{MODEL_NAME}/{new_name}"
+    new_path = f"logs/embeddings/{MODEL_NAME}/{new_name}"
     if os.path.exists(old_path):
         print(f"Renaming folder {old_name} to {new_name}")
         os.system(f"mv {old_path} {new_path}")
@@ -404,7 +404,7 @@ models_count = 0
 for task in datasets:
     task_name = task["name"]
 
-    models_path = f"savedModels/{MODEL_NAME}/{task_name}"
+    models_path = f"logs/embeddings/{MODEL_NAME}/{task_name}"
     if os.path.exists(models_path):
         models_count += 1
 
@@ -528,24 +528,24 @@ else:
 os.environ["CUBLAS_WORKSPACE_CONFIG"] = ":4096:8"
 
 # Train, evaluate and save MLP classifier/s on efficient_latent embeddings + save MLP
-run_command("python3 -m heareval.predictions.runner embeddings/efficient_latent/*  ")
+run_command("python3 -m patched_predictions_runner.py embeddings/efficient_latent/*  ")
 
 
 # In[2]:
 
 
 # Rename saved models folders and files
-with open("savedModelsName.json", "r") as file:
+with open("logs/embeddingsName.json", "r") as file:
     models_name = json.load(file)
 
 models_count = 0
 for task_name in models_name:
     old_name = task_name["old_name"]
     new_name = task_name["name"]
-    old_path = f"savedModels/{MODEL_NAME}/{old_name}"
+    old_path = f"logs/embeddings/{MODEL_NAME}/{old_name}/lightning_logs"
 
     # Rename folder
-    new_path = f"savedModels/{MODEL_NAME}/{new_name}"
+    new_path = f"logs/embeddings/{MODEL_NAME}/{new_name}"
     if os.path.exists(old_path):
         print(f"Renaming folder {old_name} to {new_name}")
         os.system(f"mv {old_path} {new_path}")
@@ -566,7 +566,7 @@ models_count = 0
 for task in datasets:
     task_name = task["name"]
 
-    models_path = f"savedModels/{MODEL_NAME}/{task_name}"
+    models_path = f"logs/embeddings/{MODEL_NAME}/{task_name}"
     if os.path.exists(models_path):
         models_count += 1
 
@@ -692,7 +692,7 @@ os.environ["CUBLAS_WORKSPACE_CONFIG"] = ":4096:8"
 
 # Train, evaluate and save MLP classifier/s on GURA.fusion_wav2vec2 embeddings + save MLP
 run_command(
-    "python3 -m heareval.predictions.runner embeddings/GURA.fusion_wav2vec2/*  "
+    "python3 -m patched_predictions_runner.py embeddings/GURA.fusion_wav2vec2/*  "
 )
 
 
@@ -700,17 +700,17 @@ run_command(
 
 
 # Rename saved models folders and files
-with open("savedModelsName.json", "r") as file:
+with open("logs/embeddingsName.json", "r") as file:
     models_name = json.load(file)
 
 models_count = 0
 for task_name in models_name:
     old_name = task_name["old_name"]
     new_name = task_name["name"]
-    old_path = f"savedModels/{MODEL_NAME}/{old_name}"
+    old_path = f"logs/embeddings/{MODEL_NAME}/{old_name}/lightning_logs"
 
     # Rename folder
-    new_path = f"savedModels/{MODEL_NAME}/{new_name}"
+    new_path = f"logs/embeddings/{MODEL_NAME}/{new_name}"
     if os.path.exists(old_path):
         print(f"Renaming folder {old_name} to {new_name}")
         os.system(f"mv {old_path} {new_path}")
@@ -731,7 +731,7 @@ models_count = 0
 for task in datasets:
     task_name = task["name"]
 
-    models_path = f"savedModels/{MODEL_NAME}/{task_name}"
+    models_path = f"logs/embeddings/{MODEL_NAME}/{task_name}"
     if os.path.exists(models_path):
         models_count += 1
 
@@ -856,24 +856,26 @@ else:
 os.environ["CUBLAS_WORKSPACE_CONFIG"] = ":4096:8"
 
 # Train, evaluate and save MLP classifier/s on GURA.fusion_cat_xwc embeddings + save MLP
-run_command("python3 -m heareval.predictions.runner embeddings/GURA.fusion_cat_xwc/*  ")
+run_command(
+    "python3 -m patched_predictions_runner.py embeddings/GURA.fusion_cat_xwc/*  "
+)
 
 
 # In[2]:
 
 
 # Rename saved models folders and files
-with open("savedModelsName.json", "r") as file:
+with open("logs/embeddingsName.json", "r") as file:
     models_name = json.load(file)
 
 models_count = 0
 for task_name in models_name:
     old_name = task_name["old_name"]
     new_name = task_name["name"]
-    old_path = f"savedModels/{MODEL_NAME}/{old_name}"
+    old_path = f"logs/embeddings/{MODEL_NAME}/{old_name}/lightning_logs"
 
     # Rename folder
-    new_path = f"savedModels/{MODEL_NAME}/{new_name}"
+    new_path = f"logs/embeddings/{MODEL_NAME}/{new_name}"
     if os.path.exists(old_path):
         print(f"Renaming folder {old_name} to {new_name}")
         os.system(f"mv {old_path} {new_path}")
@@ -894,7 +896,7 @@ models_count = 0
 for task in datasets:
     task_name = task["name"]
 
-    models_path = f"savedModels/{MODEL_NAME}/{task_name}"
+    models_path = f"logs/embeddings/{MODEL_NAME}/{task_name}"
     if os.path.exists(models_path):
         models_count += 1
 
@@ -1020,24 +1022,24 @@ else:
 os.environ["CUBLAS_WORKSPACE_CONFIG"] = ":4096:8"
 
 # Train, evaluate and save MLP classifier/s on GURA.avg_xwc embeddings + save MLP
-run_command("python3 -m heareval.predictions.runner embeddings/GURA.avg_xwc/*  ")
+run_command("python3 -m patched_predictions_runner.py embeddings/GURA.avg_xwc/*  ")
 
 
 # In[4]:
 
 
 # Rename saved models folders and files
-with open("savedModelsName.json", "r") as file:
+with open("logs/embeddingsName.json", "r") as file:
     models_name = json.load(file)
 
 models_count = 0
 for task_name in models_name:
     old_name = task_name["old_name"]
     new_name = task_name["name"]
-    old_path = f"savedModels/{MODEL_NAME}/{old_name}"
+    old_path = f"logs/embeddings/{MODEL_NAME}/{old_name}/lightning_logs"
 
     # Rename folder
-    new_path = f"savedModels/{MODEL_NAME}/{new_name}"
+    new_path = f"logs/embeddings/{MODEL_NAME}/{new_name}"
     if os.path.exists(old_path):
         print(f"Renaming folder {old_name} to {new_name}")
         os.system(f"mv {old_path} {new_path}")
@@ -1058,7 +1060,7 @@ models_count = 0
 for task in datasets:
     task_name = task["name"]
 
-    models_path = f"savedModels/{MODEL_NAME}/{task_name}"
+    models_path = f"logs/embeddings/{MODEL_NAME}/{task_name}"
     if os.path.exists(models_path):
         models_count += 1
 
@@ -1182,24 +1184,24 @@ else:
 os.environ["CUBLAS_WORKSPACE_CONFIG"] = ":4096:8"
 
 # Train, evaluate and save MLP classifier/s on panns_hear embeddings + save MLP
-run_command("python3 -m heareval.predictions.runner embeddings/panns_hear/*  ")
+run_command("python3 -m patched_predictions_runner.py embeddings/panns_hear/*  ")
 
 
 # In[2]:
 
 
 # Rename saved models folders and files
-with open("savedModelsName.json", "r") as file:
+with open("logs/embeddingsName.json", "r") as file:
     models_name = json.load(file)
 
 models_count = 0
 for task_name in models_name:
     old_name = task_name["old_name"]
     new_name = task_name["name"]
-    old_path = f"savedModels/{MODEL_NAME}/{old_name}"
+    old_path = f"logs/embeddings/{MODEL_NAME}/{old_name}/lightning_logs"
 
     # Rename folder
-    new_path = f"savedModels/{MODEL_NAME}/{new_name}"
+    new_path = f"logs/embeddings/{MODEL_NAME}/{new_name}"
     if os.path.exists(old_path):
         print(f"Renaming folder {old_name} to {new_name}")
         os.system(f"mv {old_path} {new_path}")
@@ -1220,7 +1222,7 @@ models_count = 0
 for task in datasets:
     task_name = task["name"]
 
-    models_path = f"savedModels/{MODEL_NAME}/{task_name}"
+    models_path = f"logs/embeddings/{MODEL_NAME}/{task_name}"
     if os.path.exists(models_path):
         models_count += 1
 
@@ -1345,24 +1347,24 @@ else:
 os.environ["CUBLAS_WORKSPACE_CONFIG"] = ":4096:8"
 
 # Train, evaluate and save MLP classifier/s on hear21passt.base embeddings + save MLP
-run_command("python3 -m heareval.predictions.runner embeddings/hear21passt.base/*  ")
+run_command("python3 -m patched_predictions_runner.py embeddings/hear21passt.base/*  ")
 
 
 # In[2]:
 
 
 # Rename saved models folders and files
-with open("savedModelsName.json", "r") as file:
+with open("logs/embeddingsName.json", "r") as file:
     models_name = json.load(file)
 
 models_count = 0
 for task_name in models_name:
     old_name = task_name["old_name"]
     new_name = task_name["name"]
-    old_path = f"savedModels/{MODEL_NAME}/{old_name}"
+    old_path = f"logs/embeddings/{MODEL_NAME}/{old_name}/lightning_logs"
 
     # Rename folder
-    new_path = f"savedModels/{MODEL_NAME}/{new_name}"
+    new_path = f"logs/embeddings/{MODEL_NAME}/{new_name}"
     if os.path.exists(old_path):
         print(f"Renaming folder {old_name} to {new_name}")
         os.system(f"mv {old_path} {new_path}")
@@ -1383,7 +1385,7 @@ models_count = 0
 for task in datasets:
     task_name = task["name"]
 
-    models_path = f"savedModels/{MODEL_NAME}/{task_name}"
+    models_path = f"logs/embeddings/{MODEL_NAME}/{task_name}"
     if os.path.exists(models_path):
         models_count += 1
 
@@ -1512,24 +1514,24 @@ else:
 os.environ["CUBLAS_WORKSPACE_CONFIG"] = ":4096:8"
 
 # Train, evaluate and save MLP classifier/s on audio_dbert embeddings + save MLP
-run_command("python3 -m heareval.predictions.runner embeddings/audio_dbert/*  ")
+run_command("python3 -m patched_predictions_runner.py embeddings/audio_dbert/*  ")
 
 
 # In[3]:
 
 
 # Rename saved models folders and files
-with open("savedModelsName.json", "r") as file:
+with open("logs/embeddingsName.json", "r") as file:
     models_name = json.load(file)
 
 models_count = 0
 for task_name in models_name:
     old_name = task_name["old_name"]
     new_name = task_name["name"]
-    old_path = f"savedModels/{MODEL_NAME}/{old_name}"
+    old_path = f"logs/embeddings/{MODEL_NAME}/{old_name}/lightning_logs"
 
     # Rename folder
-    new_path = f"savedModels/{MODEL_NAME}/{new_name}"
+    new_path = f"logs/embeddings/{MODEL_NAME}/{new_name}"
     if os.path.exists(old_path):
         print(f"Renaming folder {old_name} to {new_name}")
         os.system(f"mv {old_path} {new_path}")
@@ -1550,7 +1552,7 @@ models_count = 0
 for task in datasets:
     task_name = task["name"]
 
-    models_path = f"savedModels/{MODEL_NAME}/{task_name}"
+    models_path = f"logs/embeddings/{MODEL_NAME}/{task_name}"
     if os.path.exists(models_path):
         models_count += 1
 
