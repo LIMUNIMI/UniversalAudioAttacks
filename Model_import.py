@@ -42,11 +42,13 @@ from utils import Tee, run_command
 script_name = os.path.splitext(os.path.basename(__file__))[0]
 timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 
-# Create directories for logs and images
+# Create directories for logs, images, and model weights
 log_dir = "logs"
 image_dir = "images"
+model_weights_dir = "modelWeights"
 os.makedirs(log_dir, exist_ok=True)
 os.makedirs(image_dir, exist_ok=True)
+os.makedirs(model_weights_dir, exist_ok=True)
 
 # Redirect stdout and stderr to a log file and terminal
 log_file = open(f"{log_dir}/{script_name}_{timestamp}.log", "w")
@@ -494,12 +496,20 @@ with open("datasets.json", "r") as file:
 # In[13]:
 
 
+# Download model weights if they don't exist
+weight_url = "https://zenodo.org/record/6332525/files/hear2021-efficient_latent.pt"
+weight_path = f"{model_weights_dir}/hear2021-efficient_latent.pt"
+if not os.path.exists(weight_path):
+    run_command(f"wget {weight_url} -O {weight_path}")
+else:
+    print(f"Weight file already exists: {weight_path}")
+
 # Compute embeddings
 # Note: to re run make sure the embedding directory is deleted.
 import efficient_latent
 
 run_command(
-    "python patched_runner.py efficient_latent --tasks-dir ./tasks/ --embeddings-dir embeddings --model ./modelWeights/hear2021-efficient_latent.pt"
+    f"python patched_runner.py efficient_latent --tasks-dir ./tasks/ --embeddings-dir embeddings --model {weight_path}"
 )
 
 
@@ -1150,12 +1160,20 @@ with open("datasets.json", "r") as file:
 # In[8]:
 
 
+# Download model weights if they don't exist
+weight_url = "https://zenodo.org/record/6332525/files/hear2021-panns_hear.pth"
+weight_path = f"{model_weights_dir}/hear2021-panns_hear.pth"
+if not os.path.exists(weight_path):
+    run_command(f"wget {weight_url} -O {weight_path}")
+else:
+    print(f"Weight file already exists: {weight_path}")
+
 # Compute embeddings
 # Note: to re run make sure the embedding directory is deleted.
 import panns_hear
 
 run_command(
-    "python patched_runner.py panns_hear --tasks-dir ./tasks/ --embeddings-dir embeddings --model ./modelWeights/hear2021-panns_hear.pth"
+    f"python patched_runner.py panns_hear --tasks-dir ./tasks/ --embeddings-dir embeddings --model {weight_path}"
 )
 
 
@@ -1313,12 +1331,20 @@ with open("datasets.json", "r") as file:
 # In[5]:
 
 
+# Download model weights if they don't exist
+weight_url = "https://zenodo.org/record/6332525/files/hear2021-hear21passt.base.pt"
+weight_path = f"{model_weights_dir}/hear2021-hear21passt.base.pt"
+if not os.path.exists(weight_path):
+    run_command(f"wget {weight_url} -O {weight_path}")
+else:
+    print(f"Weight file already exists: {weight_path}")
+
 # Compute embeddings
 # Note: to re run make sure the embedding directory is deleted.
 import hear21passt.base
 
 run_command(
-    "python patched_runner.py hear21passt.base --tasks-dir ./tasks/ --embeddings-dir embeddings --model ./modelWeights/hear2021-hear21passt.base.pt"
+    f"python patched_runner.py hear21passt.base --tasks-dir ./tasks/ --embeddings-dir embeddings --model {weight_path}"
 )
 
 
@@ -1480,12 +1506,20 @@ with open("datasets.json", "r") as file:
 # In[3]:
 
 
+# Download model weights if they don't exist
+weight_url = "https://zenodo.org/record/6332525/files/hear2021-audio_dbert.pt"
+weight_path = f"{model_weights_dir}/hear2021-audio_dbert.pt"
+if not os.path.exists(weight_path):
+    run_command(f"wget {weight_url} -O {weight_path}")
+else:
+    print(f"Weight file already exists: {weight_path}")
+
 # Compute embeddings
 # Note: to re run make sure the embedding directory is deleted.
 import audio_dbert
 
 run_command(
-    "python patched_runner.py audio_dbert --tasks-dir ./tasks/ --embeddings-dir embeddings --model ./modelWeights/hear2021-audio_dbert.pt"
+    f"python patched_runner.py audio_dbert --tasks-dir ./tasks/ --embeddings-dir embeddings --model {weight_path}"
 )
 
 
